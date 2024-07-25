@@ -1,0 +1,12 @@
+{
+	"name": "cherry",
+	"main": "index.js",
+	"scripts": {},
+	"devDependencies": {
+		"@types/node": "^20.14.12",
+		"typescript": "^5.5.4"
+	},
+	"dependencies": {
+		"express": "^4.19.2"
+	}
+}

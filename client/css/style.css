@@ -1,0 +1,66 @@
+body {
+	background-color: #0f0f0f;
+	color: #fff;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	/* add red border to show bounds of elements */
+	border: 1px solid red;
+}
+
+button {
+	background-color: #00000000;
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	font-size: 32px;
+	padding: 0;
+}
+
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 40;
+}
+
+div.navbar {
+	background-color: #1f1f1f;
+
+	display: inline-flex;
+	justify-content: space-between;
+
+	position: fixed;
+	height: 32px;
+	width: calc(100% - 16px);
+	padding: 8px;
+}
+
+div.navbar .logo {
+	width: 32px;
+	height: 32px;
+}
+
+div.navbar .profile {
+	display: flex;
+	border-radius: 16px;
+}
+
+div.feed {
+	margin-top: 48px;
+}
+
+div.feed .post {
+	background-color: #00000000;
+	padding: 8px;
+	border-bottom: 1px solid #1f1f1f;
+}
+
+div.feed .post .header {
+	display: flex;
+	align-items: center;
+}
+
+div.feed .post .profile {
+	display: flex;
+	border-radius: 16px;
+	width: 32px;
+	height: 32px;
+}

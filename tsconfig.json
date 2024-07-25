@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"target": "ES2022",
+		// "verbatimModuleSyntax": true,
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+
+		"moduleResolution": "NodeNext",
+		"module": "NodeNext",
+		"lib": ["ES2022"],
+		"outDir": "js"
+	},
+
+	"compileOnSave": true,
+	"include": ["server/**/*.ts"],
+	"exclude": ["node_modules", "**/*.spec.ts"],
+
+	"watchOptions": {
+		"watchFile": "useFsEvents",
+		"watchDirectory": "useFsEvents",
+
+		"fallbackPolling": "dynamicPriority",
+		"synchronousWatchDirectory": true
+	}
+}
