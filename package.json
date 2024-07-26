@@ -2,7 +2,9 @@
 	"name": "cherry",
 	"main": "js/index.js",
 	"scripts": {
-		"serve": "tsc && node js/index.js"
+		"serve": "tsc && node js/index.js",
+		"build": "tsc",
+		"start": "node js/index.js"
 	},
 	"devDependencies": {
 		"@types/cookie-parser": "^1.4.7",
