@@ -9,7 +9,7 @@ async function getAccessToken(code: string) {
 	const params = new URLSearchParams()
 	params.set("grant_type", "authorization_code")
 	params.set("code", code)
-	params.set("redirect_uri", `http://localhost:3000/api/auth/redirect`)
+	params.set("redirect_uri", `https://cherry.reicaffie.com/api/auth/redirect`)
 
 	const authorization = `Basic ${btoa(
 		`${process.env.DISCORD_CLIENT_ID}:${process.env.DISCORD_CLIENT_SECRET}`

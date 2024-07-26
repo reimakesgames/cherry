@@ -1,1 +1,121 @@
-{"users":{"906204724200624138":{"nickname":"reimakesgames","userId":"906204724200624138","profile":"http://localhost:3000/avatar/906204724200624138.png","followers":[],"following":[],"likes":[],"posts":[0,1,2,3,4,5]}},"posts":[{"id":0,"userId":"906204724200624138","content":"Hello, world!","image":"sticker.gif","createdAt":"2024-07-26T14:01:19.948Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":1,"userId":"906204724200624138","content":"Hi, there!","image":"bass.jpg","createdAt":"2024-07-26T14:01:19.948Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":2,"userId":"906204724200624138","content":"this should work","createdAt":"2024-07-26T15:34:09.893Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":3,"userId":"906204724200624138","content":"WE HAVE COOKIES NOW !!!","createdAt":"2024-07-26T15:34:24.186Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":4,"userId":"906204724200624138","content":"i'm making it so that you're forced to log in now yippee","createdAt":"2024-07-26T15:45:34.256Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":5,"userId":"906204724200624138","content":"ok you're forced to log in now","createdAt":"2024-07-26T15:48:28.103Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":6,"userId":"906204724200624138","content":"i think i added likes","createdAt":"2024-07-26T16:16:11.097Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]},{"id":7,"userId":"906204724200624138","content":"things aren't real-time though that's difficult","createdAt":"2024-07-26T16:16:53.397Z","likesCount":0,"commentsCount":0,"retweetsCount":0,"viewsCount":0,"comments":[],"likes":[],"retweets":[]}]}
+{
+	"users": {
+		"906204724200624138": {
+			"nickname": "reimakesgames",
+			"userId": "906204724200624138",
+			"profile": "https://cherry.reicaffie.com/avatar/906204724200624138.png",
+			"followers": [],
+			"following": [],
+			"posts": [],
+			"likes": []
+		}
+	},
+	"posts": [
+		{
+			"id": 0,
+			"userId": "906204724200624138",
+			"content": "Hello, world!",
+			"image": "sticker.gif",
+			"createdAt": "2024-07-26T14:01:19.948Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 1,
+			"userId": "906204724200624138",
+			"content": "Hi, there!",
+			"image": "bass.jpg",
+			"createdAt": "2024-07-26T14:01:19.948Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 2,
+			"userId": "906204724200624138",
+			"content": "this should work",
+			"createdAt": "2024-07-26T15:34:09.893Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 3,
+			"userId": "906204724200624138",
+			"content": "WE HAVE COOKIES NOW !!!",
+			"createdAt": "2024-07-26T15:34:24.186Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 4,
+			"userId": "906204724200624138",
+			"content": "i'm making it so that you're forced to log in now yippee",
+			"createdAt": "2024-07-26T15:45:34.256Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 5,
+			"userId": "906204724200624138",
+			"content": "ok you're forced to log in now",
+			"createdAt": "2024-07-26T15:48:28.103Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 6,
+			"userId": "906204724200624138",
+			"content": "i think i added likes",
+			"createdAt": "2024-07-26T16:16:11.097Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		},
+		{
+			"id": 7,
+			"userId": "906204724200624138",
+			"content": "things aren't real-time though that's difficult",
+			"createdAt": "2024-07-26T16:16:53.397Z",
+			"likesCount": 0,
+			"commentsCount": 0,
+			"retweetsCount": 0,
+			"viewsCount": 0,
+			"comments": [],
+			"likes": [],
+			"retweets": []
+		}
+	]
+}

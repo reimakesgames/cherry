@@ -1,7 +1,7 @@
 import Post from "./Post.js"
 import { User } from "./User.js"
 
-const API = "http://localhost:3000"
+const API = "https://cherry.reicaffie.com"
 const FEED_API = `${API}/api/feed`
 
 const FEED = document.getElementById("inner-feed")
