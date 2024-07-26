@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div class="navbar">
-			<img class="profile" id="profile" src="./img/discord.png" />
+			<img class="profile" id="navbar-profile" src="./img/discord.png" />
 			<div class="logo-container">
 				<img
 					class="logo"
@@ -27,14 +27,22 @@
 		<div class="feed">
 			<article class="post">
 				<div class="header">
-					<img class="profile" src="./img/discord.png" />
-					<span class="name">reicaffie</span>
-					<span class="handle">@reicaffie</span>
+					<img
+						class="profile"
+						id="postbox-profile"
+						src="./img/discord.png"
+					/>
+					<span class="name" id="postbox-user">reicaffie</span>
+					<span class="handle" id="postbox-handle">@reicaffie</span>
 				</div>
 				<div class="content">
 					<div class="text">
-						<input type="text" placeholder="Write anything!" />
-						<button class="submit">Post</button>
+						<input
+							type="text"
+							placeholder="Write anything!"
+							id="input-box"
+						/>
+						<button class="submit" id="post-button">Post</button>
 					</div>
 				</div>
 			</article>
