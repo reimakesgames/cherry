@@ -1,6 +1,6 @@
 import { User } from "./User.js"
 
-const API = "http://localhost:3000"
+const API = "https://cherry.reicaffie.com"
 
 function n(element) {
 	return document.createElement(element)

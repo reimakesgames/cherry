@@ -86,7 +86,7 @@ app.get("/redirect", async (req, res) => {
 		secure: true,
 	})
 
-	res.redirect((process.env.SERVER_URL as string) + "/?userId=" + apiUser.id)
+	res.redirect((process.env.SERVER_URL as string) + "?userId=" + apiUser.id)
 })
 
 export { app as Auth }
