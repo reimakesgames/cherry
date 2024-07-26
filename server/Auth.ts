@@ -61,7 +61,6 @@ async function downloadAvatar(url: string, dest: string) {
 
 app.get("/redirect", async (req, res) => {
 	let { code } = req.query
-	console.log(code)
 
 	if (typeof code !== "string") {
 		return res.status(400).json({
@@ -70,9 +69,8 @@ app.get("/redirect", async (req, res) => {
 	}
 
 	let accessToken = await getAccessToken(code)
-	console.log(accessToken)
 	let apiUser = await getMyData(accessToken.access_token)
-	console.log(apiUser)
+	console.log(`User ${apiUser.username}#${apiUser.discriminator} logged in`)
 
 	User.newUserFromAPIUser(apiUser)
 
