@@ -29,6 +29,7 @@ POSTBOX_HANDLE.textContent = "@" + userAccount.nickname
 fetch(FEED_API)
 	.then((response) => response.json())
 	.then((posts) => {
+		posts.sort((a, b) => a.id - b.id)
 		posts.reverse()
 		posts.forEach(async (post) => {
 			let user = User.getUser(post.userId)
