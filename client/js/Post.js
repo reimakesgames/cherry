@@ -1,7 +1,7 @@
 import { User } from "./User.js"
 
-// const API = "https://cherry.reicaffie.com"
-const API = "http://localhost:3000"
+const API = "https://cherry.reicaffie.com"
+// const API = "http://localhost:3000"
 
 function n(element) {
 	return document.createElement(element)

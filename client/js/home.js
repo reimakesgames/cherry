@@ -1,8 +1,8 @@
 import Post from "./Post.js"
 import { User } from "./User.js"
 
-// const API = "https://cherry.reicaffie.com"
-const API = "http://localhost:3000"
+const API = "https://cherry.reicaffie.com"
+// const API = "http://localhost:3000"
 
 const FEED = document.getElementById("inner-feed")
 const INPUT_BOX = document.getElementById("input-box")
