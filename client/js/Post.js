@@ -70,7 +70,7 @@ class Post {
 		name.textContent = this.user.displayName
 		let handle = n("span")
 		handle.classList.add("handle")
-		handle.textContent = this.user.displayName
+		handle.textContent = "@" + this.user.displayName
 		let date = n("span")
 		date.classList.add("date")
 		date.textContent = timeSince(this.postedAt)

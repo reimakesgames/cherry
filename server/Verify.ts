@@ -5,7 +5,10 @@ const app = express()
 
 app.use(cookieParser())
 app.use((req, res, next) => {
-	// check if there's an access token
+	if (req.path === "/") {
+		return next()
+	}
+
 	let accessToken = req.cookies.accessToken
 
 	if (!accessToken) {
