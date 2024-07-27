@@ -1,24 +1,50 @@
 import { User } from "./User.js"
 
-const API = "https://cherry.reicaffie.com"
+// const API = "https://cherry.reicaffie.com"
+const API = "http://localhost:3000"
 
 function n(element) {
 	return document.createElement(element)
 }
 
+function timeSince(date) {
+	let seconds = Math.floor((new Date() - date) / 1000)
+	let interval = Math.floor(seconds / 31536000)
+	if (interval >= 1) {
+		return interval + "y"
+	}
+	interval = Math.floor(seconds / 2592000)
+	if (interval >= 1) {
+		return interval + "m"
+	}
+	interval = Math.floor(seconds / 86400)
+	if (interval >= 1) {
+		return interval + "d"
+	}
+	interval = Math.floor(seconds / 3600)
+	if (interval >= 1) {
+		return interval + "h"
+	}
+	interval = Math.floor(seconds / 60)
+	console.log(interval)
+	if (interval >= 1) {
+		return interval + "m"
+	}
+	return Math.floor(seconds) + "s"
+}
+
 class Post {
-	name = "John Doe"
-	handle = "@johndoe"
-	postId = -1n
-	userId = -1n
+	user = new User()
+	postId = "-1"
+	postedAt = new Date()
+
 	caption = "This is a caption"
-	profile = ""
-	image = "null.png"
+	images = []
+
 	commentsCount = 0
 	retweetsCount = 0
 	likesCount = 0
 	viewsCount = 0
-	date = new Date()
 	liked = false
 	retweeted = false
 	comments = []
@@ -35,23 +61,20 @@ class Post {
 	generateHeader() {
 		let header = n("div")
 		header.classList.add("header")
-		let profile = n("img")
-		profile.crossOrigin = "anonymous"
-		profile.classList.add("profile")
-		profile.src = this.profile
+		let avatar = n("img")
+		avatar.crossOrigin = "anonymous"
+		avatar.classList.add("profile")
+		avatar.src = `${API}/avatar/${this.user.avatarId}`
 		let name = n("span")
 		name.classList.add("name")
-		name.textContent = this.name
+		name.textContent = this.user.displayName
 		let handle = n("span")
 		handle.classList.add("handle")
-		handle.textContent = this.handle
+		handle.textContent = this.user.displayName
 		let date = n("span")
 		date.classList.add("date")
-		date.textContent =
-			this.date.toLocaleDateString() +
-			" " +
-			this.date.toLocaleTimeString()
-		header.appendChild(profile)
+		date.textContent = timeSince(this.postedAt)
+		header.appendChild(avatar)
 		header.appendChild(name)
 		header.appendChild(handle)
 		header.appendChild(date)
@@ -65,12 +88,12 @@ class Post {
 		text.classList.add("text")
 		text.textContent = this.caption
 		content.appendChild(text)
-		if (this.image != undefined) {
+		if (this.images !== undefined && this.images.length > 0) {
 			let image = n("div")
 			image.classList.add("image")
 			let img = n("img")
 			img.crossOrigin = "anonymous"
-			img.src = `${API}/media/${this.image}`
+			img.src = `${API}/media/${this.images[0]}`
 			image.appendChild(img)
 			content.appendChild(image)
 		}

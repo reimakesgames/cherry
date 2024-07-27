@@ -1,21 +1,23 @@
 import express from "express"
 import { RESTPostOAuth2AccessTokenResult, APIUser } from "discord-api-types/v10"
-import download from "image-downloader"
 import { User } from "./User.js"
 
 const app = express()
+
+const URL = process.env.URL as string
+const DISCORD_URL = "https://discord.com/api/v10"
 
 async function getAccessToken(code: string) {
 	const params = new URLSearchParams()
 	params.set("grant_type", "authorization_code")
 	params.set("code", code)
-	params.set("redirect_uri", `https://cherry.reicaffie.com/api/auth/redirect`)
+	params.set("redirect_uri", `${URL}/api/auth/redirect`)
 
 	const authorization = `Basic ${btoa(
 		`${process.env.DISCORD_CLIENT_ID}:${process.env.DISCORD_CLIENT_SECRET}`
 	)}`
 
-	const response = await fetch("https://discord.com/api/v10/oauth2/token", {
+	const response = await fetch(`${DISCORD_URL}/oauth2/token`, {
 		method: "POST",
 		body: params,
 		headers: {
@@ -28,7 +30,7 @@ async function getAccessToken(code: string) {
 }
 
 async function getMyData(access_token: string) {
-	const response = await fetch("https://discord.com/api/v10/users/@me", {
+	const response = await fetch(`${DISCORD_URL}/users/@me`, {
 		headers: {
 			authorization: `Bearer ${access_token}`,
 		},
@@ -38,25 +40,13 @@ async function getMyData(access_token: string) {
 }
 
 async function getUserData(access_token: string, userId: string) {
-	const response = await fetch(
-		`https://discord.com/api/v10/users/${userId}`,
-		{
-			headers: {
-				authorization: `Bearer ${access_token}`,
-			},
-		}
-	)
+	const response = await fetch(`${DISCORD_URL}/users/${userId}`, {
+		headers: {
+			authorization: `Bearer ${access_token}`,
+		},
+	})
 
 	return (await response.json()) as APIUser
-}
-
-async function downloadAvatar(url: string, dest: string) {
-	const options = {
-		url,
-		dest,
-	}
-
-	await download.image(options)
 }
 
 app.get("/redirect", async (req, res) => {
@@ -69,13 +59,18 @@ app.get("/redirect", async (req, res) => {
 	}
 
 	let accessToken = await getAccessToken(code)
+
+	if (!accessToken.access_token) {
+		return res.status(400).json({
+			error: "Invalid code",
+		})
+	}
+
 	let apiUser = await getMyData(accessToken.access_token)
+
 	console.log(`User ${apiUser.username}#${apiUser.discriminator} logged in`)
 
 	User.newUserFromAPIUser(apiUser)
-
-	let avatarUrl = `https://cdn.discordapp.com/avatars/${apiUser.id}/${apiUser.avatar}.png`
-	await downloadAvatar(avatarUrl, process.cwd() + `/avatar/${apiUser.id}.png`)
 
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true,
@@ -86,7 +81,7 @@ app.get("/redirect", async (req, res) => {
 		secure: true,
 	})
 
-	res.redirect((process.env.SERVER_URL as string) + "?userId=" + apiUser.id)
+	res.redirect(URL + "?userId=" + apiUser.id)
 })
 
 export { app as Auth }

@@ -1,9 +1,9 @@
 let users = {}
 
 class User {
-	nickname = ""
-	userId = -1n
-	profile = ""
+	displayName = ""
+	userId = "-1"
+	avatarId = ""
 
 	static setUser(userId, user) {
 		users[userId] = user

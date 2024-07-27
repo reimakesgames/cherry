@@ -1,17 +1,28 @@
 import { APIUser } from "discord-api-types/v10"
 import { readFileSync, writeFileSync } from "fs"
+import download from "image-downloader"
 import path from "path"
 
+const CONTENT = path.join(process.cwd(), "content")
+
+async function downloadAvatar(url: string, dest: string) {
+	await download.image({
+		url,
+		dest,
+	})
+}
+
 class User {
-	nickname: string = ""
-	userId: bigint = -1n
-	profile: string = ""
+	displayName: string = ""
+	userId: string = "-1"
+	avatarId: string = ""
+
 	followers: number[] = []
 	following: number[] = []
 	posts: number[] = []
 	likes: number[] = []
 
-	static setUser(userId: bigint, user: User) {
+	static setUser(userId: string, user: User) {
 		let db = JSON.parse(
 			readFileSync(path.join(process.cwd(), "db.json"), "utf-8")
 		)
@@ -26,16 +37,26 @@ class User {
 		return db.users[userId.toString()]
 	}
 
-	static newUserFromAPIUser(apiUser: APIUser) {
+	static async newUserFromAPIUser(apiUser: APIUser) {
 		let user = new User()
-		user.nickname = apiUser.username
-		user.userId = BigInt(apiUser.id)
-		user.profile = process.env.SERVER_URL + "/avatar/" + apiUser.id + ".png"
+
+		let avatarUrl = `https://cdn.discordapp.com/avatars/${apiUser.id}/${apiUser.avatar}.png`
+		let avatarFilename = `${apiUser.id}.png`
+		await downloadAvatar(
+			avatarUrl,
+			path.join(CONTENT, "avatar", avatarFilename)
+		)
+
+		user.displayName = apiUser.username
+		user.userId = apiUser.id
+		user.avatarId = avatarFilename
+
 		user.followers = []
 		user.following = []
 		user.posts = []
 		user.likes = []
-		this.setUser(BigInt(apiUser.id), user)
+
+		this.setUser(apiUser.id, user)
 	}
 }
 

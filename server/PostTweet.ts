@@ -33,10 +33,10 @@ app.post("/posttweet", (req, res) => {
 
 	let db = readFileSync("db.json", "utf-8")
 	let parsed = JSON.parse(db)
-	let posts = parsed.posts
+	let posts = parsed.posts as Post[]
 	let id = posts.length
 	let post = new Post()
-	post.id = id
+	post.postId = id.toString()
 	post.userId = userId
 	post.content = content
 	posts.push(post)

@@ -1,8 +1,8 @@
 import Post from "./Post.js"
 import { User } from "./User.js"
 
-const API = "https://cherry.reicaffie.com"
-const FEED_API = `${API}/api/feed`
+// const API = "https://cherry.reicaffie.com"
+const API = "http://localhost:3000"
 
 const FEED = document.getElementById("inner-feed")
 const INPUT_BOX = document.getElementById("input-box")
@@ -21,15 +21,17 @@ if (userId !== null) {
 let userAccount = await (await fetch(`${API}/api/users?id=${userId}`)).json()
 User.setUser(userId, userAccount)
 
-NAVBAR_PROFILE.src = userAccount.profile
-POSTBOX_PROFILE.src = userAccount.profile
-POSTBOX_USER.textContent = userAccount.nickname
-POSTBOX_HANDLE.textContent = "@" + userAccount.nickname
+NAVBAR_PROFILE.src = `${API}/avatar/${userAccount.avatarId}`
+POSTBOX_PROFILE.src = `${API}/avatar/${userAccount.avatarId}`
+POSTBOX_USER.textContent = userAccount.displayName
+POSTBOX_HANDLE.textContent = "@" + userAccount.displayName
 
-fetch(FEED_API)
+fetch(`${API}/api/feed`)
 	.then((response) => response.json())
 	.then((posts) => {
-		posts.sort((a, b) => a.id - b.id)
+		posts.sort(
+			(a, b) => Number.parseInt(a.postId) - Number.parseInt(b.postId)
+		)
 		posts.reverse()
 		posts.forEach(async (post) => {
 			let user = User.getUser(post.userId)
@@ -42,15 +44,12 @@ fetch(FEED_API)
 			User.setUser(post.userId, user)
 
 			let p = new Post()
-			p.name = user.nickname
-			p.handle = "@" + user.nickname
-			p.profile = user.profile
-			p.userId = user.userId
+			p.user = user
 			p.liked = post.likes.includes(userId)
-			p.postId = post.id
+			p.postId = post.postId
 			p.caption = post.content
-			p.image = post.image
-			p.date = new Date(post.createdAt)
+			p.images = post.images
+			p.postedAt = new Date(post.postedAt)
 			p.likesCount = post.likesCount
 			p.commentsCount = post.commentsCount
 			p.retweetsCount = post.retweetsCount
@@ -90,7 +89,7 @@ function PostTweet() {
 	// 		p.profile = User.profile
 	// 		p.caption = post.content
 	// 		p.image = post.image
-	// 		p.date = new Date(post.createdAt)
+	// 		p.date = new Date(post.postedAt)
 	// 		p.likesCount = post.likesCount
 	// 		p.commentsCount = post.commentsCount
 	// 		p.retweetsCount = post.retweetsCount
@@ -122,14 +121,11 @@ function PostTweet() {
 			console.log(user)
 
 			let p = new Post()
-			p.name = user.nickname
-			p.handle = "@" + user.nickname
-			p.profile = user.profile
-			p.userId = user.userId
-			p.postId = post.id
+			p.user = user
+			p.postId = post.postId
 			p.caption = post.content
-			p.image = post.image
-			p.date = new Date(post.createdAt)
+			p.images = post.images
+			p.postedAt = new Date(post.postedAt)
 			p.likesCount = post.likesCount
 			p.commentsCount = post.commentsCount
 			p.retweetsCount = post.retweetsCount

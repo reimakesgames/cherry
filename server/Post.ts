@@ -1,13 +1,9 @@
 export class Post {
-	id: bigint = -1n
-	userId: bigint = -1n
+	postId: string = "-1"
+	userId: string = "-1"
 	content: string = ""
-	image?: string
-	createdAt: Date = new Date()
-
-	likesCount: number = 0
-	commentsCount: number = 0
-	retweetsCount: number = 0
+	images?: string[1]
+	postedAt: Date = new Date()
 	viewsCount: number = 0
 
 	comments: bigint[] = []

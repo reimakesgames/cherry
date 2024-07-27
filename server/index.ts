@@ -1,6 +1,11 @@
 import express from "express"
-import dotenv from "dotenv"
-dotenv.config()
+
+require("dotenv").config()
+;(BigInt.prototype as any).toJSON = function () {
+	return this.toString()
+}
+
+console.log(process.env.URL)
 
 import { GetFeedAlgorithm } from "./GetFeedAlgorithm.js"
 import { Auth } from "./Auth.js"
@@ -8,12 +13,10 @@ import { GetUser } from "./GetUser.js"
 import { PostTweet } from "./PostTweet.js"
 import { Verify } from "./Verify.js"
 import { LikeTweet } from "./LikeTweet.js"
-;(BigInt.prototype as any).toJSON = function () {
-	return this.toString()
-}
 
 const app = express()
-const PORT = process.env.SERVER_PORT || 3000
+
+const PORT = process.env.PORT || 3000
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*")
@@ -31,8 +34,8 @@ app.use("/api", GetFeedAlgorithm)
 app.use("/api", GetUser)
 app.use("/api", PostTweet)
 app.use("/api", LikeTweet)
-app.use("/media", express.static("media"))
-app.use("/avatar", express.static("avatar"))
+app.use("/media", express.static("content/media"))
+app.use("/avatar", express.static("content/avatar"))
 app.use("/", express.static("client"))
 
 app.listen(PORT, () => {
