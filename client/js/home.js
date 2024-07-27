@@ -16,7 +16,7 @@ let urlParams = new URLSearchParams(window.location.search)
 let userId = urlParams.get("userId") || localStorage.getItem("userId")
 if (userId !== null) {
 	localStorage.setItem("userId", userId)
-	window.history.replaceState({}, document.title, "/")
+	window.history.replaceState({}, document.title, "/home/")
 }
 let userAccount = await (await fetch(`${API}/api/users?id=${userId}`)).json()
 User.setUser(userId, userAccount)

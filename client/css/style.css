@@ -171,6 +171,7 @@ div.feed .post {
 	display: flex;
 	align-items: center;
 	height: 24px;
+	width: 100%;
 }
 
 .actions button {
