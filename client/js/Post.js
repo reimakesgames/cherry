@@ -41,13 +41,13 @@ class Post {
 	caption = "This is a caption"
 	images = []
 
-	commentsCount = 0
-	retweetsCount = 0
-	likesCount = 0
 	viewsCount = 0
+
 	liked = false
 	retweeted = false
 	comments = []
+	likes = []
+	retweets = []
 
 	toHtml() {
 		let post = n("div")
@@ -108,9 +108,9 @@ class Post {
 		footer.appendChild(mainActions)
 		let actions = ["mode_comment", "cached", "favorite", "bar_chart"]
 		let counts = [
-			this.commentsCount,
-			this.retweetsCount,
-			this.likesCount,
+			this.comments.length,
+			this.retweets.length,
+			this.likes.length,
 			this.viewsCount,
 		]
 		actions.forEach((action, index) => {

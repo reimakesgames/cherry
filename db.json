@@ -6,7 +6,7 @@
 			"avatarId": "906204724200624138.png",
 			"followers": [],
 			"following": [],
-			"posts": [0, 1],
+			"posts": [],
 			"likes": []
 		}
 	},
@@ -40,7 +40,7 @@
 			"postedAt": "2024-07-27T13:28:14.379Z",
 			"viewsCount": 0,
 			"comments": [],
-			"likes": [],
+			"likes": ["906204724200624138"],
 			"retweets": []
 		},
 		{
@@ -50,7 +50,7 @@
 			"postedAt": "2024-07-27T13:32:33.706Z",
 			"viewsCount": 0,
 			"comments": [],
-			"likes": [],
+			"likes": ["906204724200624138"],
 			"retweets": []
 		}
 	]

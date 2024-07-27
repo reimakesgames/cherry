@@ -50,9 +50,9 @@ fetch(`${API}/api/feed`)
 			p.caption = post.content
 			p.images = post.images
 			p.postedAt = new Date(post.postedAt)
-			p.likesCount = post.likesCount
-			p.commentsCount = post.commentsCount
-			p.retweetsCount = post.retweetsCount
+			p.likes = post.likes
+			p.comments = post.comments
+			p.retweets = post.retweets
 			p.viewsCount = post.viewsCount
 			FEED.appendChild(p.toHtml())
 		})
@@ -63,7 +63,7 @@ fetch(`${API}/api/feed`)
 
 function PostTweet() {
 	let text = INPUT_BOX.value
-	// verification
+
 	if (text === "") {
 		return
 	}
@@ -73,34 +73,6 @@ function PostTweet() {
 
 	let json = JSON.stringify({ content: text })
 
-	// fetch(`${API}/api/posttweet`, {
-	// 	method: "POST",
-	// 	headers: {
-	// 		"Content-Type": "application/json",
-	// 	},
-	// 	body: json,
-	// })
-	// 	.then((response) => response.json())
-	// 	.then((post) => {
-	// 		INPUT_BOX.value = ""
-	// 		let p = new Post()
-	// 		p.name = User.nickname
-	// 		p.handle = "@" + User.nickname
-	// 		p.profile = User.profile
-	// 		p.caption = post.content
-	// 		p.image = post.image
-	// 		p.date = new Date(post.postedAt)
-	// 		p.likesCount = post.likesCount
-	// 		p.commentsCount = post.commentsCount
-	// 		p.retweetsCount = post.retweetsCount
-	// 		p.viewsCount = post.viewsCount
-	// 		FEED.prepend(p.toHtml())
-	// 	})
-	// 	.catch((error) => {
-	// 		console.error(error)
-	// 	})
-
-	// xmlhttprequest
 	let xhr = new XMLHttpRequest()
 	xhr.open("POST", `${API}/api/posttweet`, true)
 	xhr.setRequestHeader("Content-Type", "application/json")
@@ -126,9 +98,9 @@ function PostTweet() {
 			p.caption = post.content
 			p.images = post.images
 			p.postedAt = new Date(post.postedAt)
-			p.likesCount = post.likesCount
-			p.commentsCount = post.commentsCount
-			p.retweetsCount = post.retweetsCount
+			p.likes = post.likes
+			p.comments = post.comments
+			p.retweets = post.retweets
 			p.viewsCount = post.viewsCount
 			FEED.prepend(p.toHtml())
 		}

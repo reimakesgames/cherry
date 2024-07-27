@@ -6,7 +6,7 @@ const app = express()
 app.get("/users", (req, res) => {
 	const id = req.query.id as string
 
-	let user = User.getUser(BigInt(id))
+	let user = User.getUser(id)
 
 	if (!user) {
 		return res.status(404).json({

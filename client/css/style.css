@@ -136,6 +136,11 @@ div.feed .post {
 }
 
 @media screen and (max-width: 600px) {
+	div.feed {
+		border-left: none;
+		border-right: none;
+	}
+
 	.post .content .image {
 		width: 100%;
 		border-radius: 8px;

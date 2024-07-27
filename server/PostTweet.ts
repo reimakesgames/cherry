@@ -41,7 +41,7 @@ app.post("/posttweet", (req, res) => {
 	post.content = content
 	posts.push(post)
 	parsed.posts = posts
-	User.getUser(BigInt(userId)).posts.push(id)
+	User.getUser(userId).posts.push(id)
 	writeFileSync("db.json", JSON.stringify(parsed))
 
 	res.json({

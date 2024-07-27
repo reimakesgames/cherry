@@ -13,6 +13,7 @@ import { GetUser } from "./GetUser.js"
 import { PostTweet } from "./PostTweet.js"
 import { Verify } from "./Verify.js"
 import { LikeTweet } from "./LikeTweet.js"
+import { GetPostStats } from "./GetPostStats.js"
 
 const app = express()
 
@@ -32,6 +33,7 @@ app.use("/api/auth", Auth)
 app.use("/", Verify)
 app.use("/api", GetFeedAlgorithm)
 app.use("/api", GetUser)
+app.use("/api", GetPostStats)
 app.use("/api", PostTweet)
 app.use("/api", LikeTweet)
 app.use("/media", express.static("content/media"))

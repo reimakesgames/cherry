@@ -26,15 +26,15 @@ class User {
 		let db = JSON.parse(
 			readFileSync(path.join(process.cwd(), "db.json"), "utf-8")
 		)
-		db.users[userId.toString()] = user
+		db.users[userId] = user
 		writeFileSync(path.join(process.cwd(), "db.json"), JSON.stringify(db))
 	}
 
-	static getUser(userId: bigint) {
+	static getUser(userId: string) {
 		let db = JSON.parse(
 			readFileSync(path.join(process.cwd(), "db.json"), "utf-8")
 		)
-		return db.users[userId.toString()]
+		return db.users[userId]
 	}
 
 	static async newUserFromAPIUser(apiUser: APIUser) {

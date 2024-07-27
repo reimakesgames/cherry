@@ -4,9 +4,9 @@ export class Post {
 	content: string = ""
 	images?: string[1]
 	postedAt: Date = new Date()
-	viewsCount: number = 0
 
 	comments: bigint[] = []
 	likes: bigint[] = []
 	retweets: bigint[] = []
+	viewsCount: number = 0
 }
