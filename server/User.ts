@@ -1,7 +1,7 @@
 import { APIUser } from "discord-api-types/v10"
-import { readFileSync, writeFileSync } from "fs"
 import download from "image-downloader"
 import path from "path"
+import { getDb, setDb } from "./DB.js"
 
 const CONTENT = path.join(process.cwd(), "content")
 
@@ -17,23 +17,19 @@ class User {
 	userId: string = "-1"
 	avatarId: string = ""
 
-	followers: number[] = []
-	following: number[] = []
-	posts: number[] = []
-	likes: number[] = []
+	followers: string[] = []
+	following: string[] = []
+	posts: string[] = []
+	likes: string[] = []
 
 	static setUser(userId: string, user: User) {
-		let db = JSON.parse(
-			readFileSync(path.join(process.cwd(), "db.json"), "utf-8")
-		)
+		let db = getDb()
 		db.users[userId] = user
-		writeFileSync(path.join(process.cwd(), "db.json"), JSON.stringify(db))
+		setDb(db)
 	}
 
 	static getUser(userId: string) {
-		let db = JSON.parse(
-			readFileSync(path.join(process.cwd(), "db.json"), "utf-8")
-		)
+		let db = getDb()
 		return db.users[userId]
 	}
 

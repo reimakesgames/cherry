@@ -5,8 +5,8 @@ export class Post {
 	images?: string[1]
 	postedAt: Date = new Date()
 
-	comments: bigint[] = []
-	likes: bigint[] = []
-	retweets: bigint[] = []
+	comments: string[] = []
+	likes: string[] = []
+	retweets: string[] = []
 	viewsCount: number = 0
 }

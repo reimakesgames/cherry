@@ -1,11 +1,10 @@
 import express from "express"
-import { Post } from "./Post.js"
-import { readFileSync } from "fs"
+import { getDb } from "./DB.js"
 
 const app = express()
 
 app.get("/feed", (req, res) => {
-	let db = JSON.parse(readFileSync("db.json", "utf-8"))
+	let db = getDb()
 
 	res.json(db.posts)
 })

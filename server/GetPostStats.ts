@@ -1,6 +1,5 @@
 import express from "express"
-import { Post } from "./Post.js"
-import { readFileSync } from "fs"
+import { getDb } from "./DB.js"
 
 const app = express()
 
@@ -19,9 +18,10 @@ app.get("/poststats", (req, res) => {
 		})
 	}
 
-	let db = JSON.parse(readFileSync("db.json", "utf-8"))
-	let posts = db.posts as Post[]
-	let post = posts.find((p: any) => p.postId.toString() === postId.toString())
+	let db = getDb()
+	let post = db.posts.find(
+		(p: any) => p.postId.toString() === postId.toString()
+	)
 
 	if (!post) {
 		return res.status(404).json({

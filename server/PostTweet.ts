@@ -1,9 +1,9 @@
 import express from "express"
-import { readFile, readFileSync, write, writeFileSync } from "fs"
 import { Post } from "./Post.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import { User } from "./User.js"
+import { getDb, setDb } from "./DB.js"
 
 const app = express()
 
@@ -31,18 +31,15 @@ app.post("/posttweet", (req, res) => {
 		})
 	}
 
-	let db = readFileSync("db.json", "utf-8")
-	let parsed = JSON.parse(db)
-	let posts = parsed.posts as Post[]
-	let id = posts.length
+	let db = getDb()
+	let id = db.posts.length
 	let post = new Post()
 	post.postId = id.toString()
 	post.userId = userId
 	post.content = content
-	posts.push(post)
-	parsed.posts = posts
-	User.getUser(userId).posts.push(id)
-	writeFileSync("db.json", JSON.stringify(parsed))
+	db.posts.push(post)
+	User.getUser(userId)?.posts.push(id.toString())
+	setDb(db)
 
 	res.json({
 		success: true,
