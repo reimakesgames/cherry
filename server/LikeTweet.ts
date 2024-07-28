@@ -22,7 +22,7 @@ app.post("/liketweet", (req, res) => {
 	}
 
 	let userId = req.cookies.userId
-	let user = User.getUser(userId)
+	let user = User.getUserFromId(userId)
 
 	if (!user) {
 		return res.status(403).json({

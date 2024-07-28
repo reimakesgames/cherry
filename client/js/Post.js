@@ -64,6 +64,9 @@ class Post {
 		avatar.crossOrigin = "anonymous"
 		avatar.classList.add("profile")
 		avatar.src = `${API}/avatar/${this.user.avatarId}`
+		avatar.onclick = () => {
+			window.location.href = `${API}/@${this.user.displayName}`
+		}
 		let name = n("span")
 		name.classList.add("name")
 		name.textContent = this.user.displayName

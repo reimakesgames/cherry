@@ -12,26 +12,38 @@ const POSTBOX_USER = document.getElementById("postbox-user")
 const POSTBOX_HANDLE = document.getElementById("postbox-handle")
 
 let urlParams = new URLSearchParams(window.location.search)
-let userId = urlParams.get("userId") || localStorage.getItem("userId")
-if (userId !== null) {
-	localStorage.setItem("userId", userId)
+let myUserId = urlParams.get("userId") || localStorage.getItem("userId")
+if (myUserId !== null) {
+	localStorage.setItem("userId", myUserId)
 	window.history.replaceState({}, document.title, "/home/")
 }
-let userAccount = await (await fetch(`${API}/api/users?id=${userId}`)).json()
-User.setUser(userId, userAccount)
+let userAccount = await (await fetch(`${API}/api/users?id=${myUserId}`)).json()
+User.setUser(myUserId, userAccount)
 
 NAVBAR_PROFILE.src = `${API}/avatar/${userAccount.avatarId}`
 POSTBOX_PROFILE.src = `${API}/avatar/${userAccount.avatarId}`
 POSTBOX_USER.textContent = userAccount.displayName
 POSTBOX_HANDLE.textContent = "@" + userAccount.displayName
 
+function BuildPost(post) {
+	let p = new Post()
+	p.user = User.getUser(post.userId)
+	p.liked = post.likes.includes(myUserId)
+	p.postId = post.postId
+	p.caption = post.content
+	p.images = post.images
+	p.postedAt = new Date(post.postedAt)
+	p.likes = post.likes
+	p.comments = post.comments
+	p.retweets = post.retweets
+	p.viewsCount = post.viewsCount
+	return p
+}
+
 fetch(`${API}/api/feed`)
 	.then((response) => response.json())
 	.then((posts) => {
-		posts.sort(
-			(a, b) => Number.parseInt(a.postId) - Number.parseInt(b.postId)
-		)
-		posts.reverse()
+		posts.sort((a, b) => b.postId - a.postId)
 		posts.forEach(async (post) => {
 			let user = User.getUser(post.userId)
 
@@ -39,21 +51,10 @@ fetch(`${API}/api/feed`)
 				user = await (
 					await fetch(`${API}/api/users?id=${post.userId}`)
 				).json()
+				User.setUser(post.userId, user)
 			}
-			User.setUser(post.userId, user)
 
-			let p = new Post()
-			p.user = user
-			p.liked = post.likes.includes(userId)
-			p.postId = post.postId
-			p.caption = post.content
-			p.images = post.images
-			p.postedAt = new Date(post.postedAt)
-			p.likes = post.likes
-			p.comments = post.comments
-			p.retweets = post.retweets
-			p.viewsCount = post.viewsCount
-			FEED.appendChild(p.toHtml())
+			FEED.appendChild(BuildPost(post).toHtml())
 		})
 	})
 	.catch((error) => {
@@ -82,26 +83,13 @@ function PostTweet() {
 			INPUT_BOX.value = ""
 
 			let user = User.getUser(post.userId)
-
 			if (user === undefined) {
 				user = await (
 					await fetch(`${API}/api/users?id=${post.userId}`)
 				).json()
 			}
 
-			console.log(user)
-
-			let p = new Post()
-			p.user = user
-			p.postId = post.postId
-			p.caption = post.content
-			p.images = post.images
-			p.postedAt = new Date(post.postedAt)
-			p.likes = post.likes
-			p.comments = post.comments
-			p.retweets = post.retweets
-			p.viewsCount = post.viewsCount
-			FEED.prepend(p.toHtml())
+			FEED.prepend(BuildPost(post).toHtml())
 		}
 	}
 	xhr.send(json)

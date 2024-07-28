@@ -38,7 +38,7 @@ app.post("/posttweet", (req, res) => {
 	post.userId = userId
 	post.content = content
 	db.posts.push(post)
-	User.getUser(userId)?.posts.push(id.toString())
+	User.getUserFromId(userId)?.posts.push(id.toString())
 	setDb(db)
 
 	res.json({

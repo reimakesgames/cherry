@@ -1,0 +1,132 @@
+@import url("feed.css");
+
+@font-face {
+	font-family: "Poppin";
+	src: url("../fonts/Poppin-Regular.otf");
+}
+
+@font-face {
+	font-family: "CreatoDisplay";
+	src: url("../fonts/CreatoDisplay-Regular.otf");
+}
+
+body {
+	background-color: #0f0f0f;
+	color: #fff;
+	font-family: "CreatoDisplay", Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+button {
+	background-color: #00000000;
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	font-size: 32px;
+	padding: 0;
+	width: 48px;
+	height: 48px;
+}
+
+header {
+	background-color: #1f1f1f;
+	display: inline-flex;
+	justify-content: left;
+	position: fixed;
+	gap: 8px;
+	top: 0;
+	height: 48px;
+	width: calc(100% - 16px);
+	padding: 8px;
+	z-index: 1;
+}
+
+div.quick-view {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: left;
+}
+
+span.display-name {
+	font-size: 24px;
+	font-style: bold;
+}
+
+span.handle {
+	font-size: 16px;
+	color: #8f8f8f;
+}
+
+span.post-count {
+	font-size: 16px;
+	color: #8f8f8f;
+}
+
+div.feed {
+	margin-top: 64px;
+}
+
+img.banner {
+	width: 100%;
+	height: 200px;
+}
+
+@media screen and (max-width: 600px) {
+	img.banner {
+		height: calc(100vw / 3);
+	}
+}
+
+img.profile-large {
+	border-radius: 50%;
+	width: 128px;
+	height: 128px;
+	border: 8px solid #0f0f0f;
+	position: relative;
+	top: -64px;
+	left: 16px;
+	margin-bottom: -16px;
+	margin-right: -128px;
+}
+
+div.bio {
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+div.stats {
+	display: inline-flex;
+	justify-content: center;
+}
+
+div.stat {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	margin: 16px;
+}
+
+span.number {
+	color: #fff;
+	font-size: 16px;
+	font-style: bold;
+}
+
+span.label {
+	color: #8f8f8f;
+	font-size: 16px;
+}
+
+div.tabs {
+	display: inline-flex;
+	justify-content: center;
+	width: 100%;
+}
+
+button.tab {
+	color: #fff;
+	font-size: 16px;
+	width: 100%;
+}

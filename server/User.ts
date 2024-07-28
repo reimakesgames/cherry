@@ -28,9 +28,14 @@ class User {
 		setDb(db)
 	}
 
-	static getUser(userId: string) {
+	static getUserFromId(userId: string) {
 		let db = getDb()
 		return db.users[userId]
+	}
+
+	static getUserFromUsername(username: string) {
+		let db = getDb()
+		return Object.values(db.users).find((u) => u.displayName === username)
 	}
 
 	static async newUserFromAPIUser(apiUser: APIUser) {
