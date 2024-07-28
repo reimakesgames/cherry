@@ -15,6 +15,7 @@ import { LikeTweet } from "./LikeTweet.js"
 import { GetPostStats } from "./GetPostStats.js"
 import { UserProfile } from "./UserProfile.js"
 import { GetUserPosts } from "./GetUserPosts.js"
+import { FollowUser } from "./FollowUser.js"
 
 const app = express()
 
@@ -38,6 +39,7 @@ app.use("/api", GetPostStats)
 app.use("/api", GetUserPosts)
 app.use("/api", PostTweet)
 app.use("/api", LikeTweet)
+app.use("/api", FollowUser)
 app.use("/", express.static("client"))
 app.use("/media", express.static("content/media"))
 app.use("/avatar", express.static("content/avatar"))

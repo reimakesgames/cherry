@@ -34,3 +34,5 @@ app.get("/followuser", (req, res) => {
 		success: true,
 	})
 })
+
+export { app as FollowUser }
