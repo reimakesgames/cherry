@@ -27,7 +27,7 @@ POSTBOX_HANDLE.textContent = "@" + userAccount.displayName
 
 function BuildPost(post) {
 	let p = new Post()
-	p.user = User.getUser(post.userId)
+	p.user = User.getUserById(post.userId)
 	p.liked = post.likes.includes(myUserId)
 	p.postId = post.postId
 	p.caption = post.content
@@ -45,7 +45,7 @@ fetch(`${API}/api/feed`)
 	.then((posts) => {
 		posts.sort((a, b) => b.postId - a.postId)
 		posts.forEach(async (post) => {
-			let user = User.getUser(post.userId)
+			let user = User.getUserById(post.userId)
 
 			if (user === undefined) {
 				user = await (
@@ -82,7 +82,7 @@ function PostTweet() {
 			let post = res.post
 			INPUT_BOX.value = ""
 
-			let user = User.getUser(post.userId)
+			let user = User.getUserById(post.userId)
 			if (user === undefined) {
 				user = await (
 					await fetch(`${API}/api/users?id=${post.userId}`)

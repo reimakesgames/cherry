@@ -15,6 +15,7 @@ const DISPLAY_NAME_QUICK_VIEW = document.getElementById(
 )
 const POSTS_QUICK_VIEW = document.getElementById("posts-quick-view")
 
+const FOLLOW_BUTTON = document.getElementById("follow-button")
 const PROFILE = document.getElementById("profile")
 const DISPLAY_NAME = document.getElementById("display-name")
 const HANDLE = document.getElementById("handle")
@@ -26,7 +27,7 @@ const FEED = document.getElementById("inner-feed")
 
 function BuildPost(post) {
 	let p = new Post()
-	p.user = User.getUser(post.userId)
+	p.user = User.getUserById(post.userId)
 	p.liked = post.likes.includes(myUserId)
 	p.postId = post.postId
 	p.caption = post.content
@@ -53,7 +54,7 @@ fetch(`${API}/api/users?username=${handle}`)
 		FOLLOWING.textContent = user.following.length
 
 		POSTS_QUICK_VIEW.textContent = `${user.posts.length} posts`
-		fetch(`${API}/api/@reimakesgames/posts`)
+		fetch(`${API}/api/@${handle}/posts`)
 			.then((response) => response.json())
 			.then((posts) => {
 				posts.sort((a, b) => b.postId - a.postId)
@@ -68,6 +69,75 @@ fetch(`${API}/api/users?username=${handle}`)
 	.catch((error) => {
 		console.error(error)
 	})
+
+if (myUserId !== null) {
+	fetch(`${API}/api/users?id=${myUserId}`)
+		.then((response) => response.json())
+		.then((user) => {
+			User.setUser(user.userId, user)
+
+			// if (User.getUserByHandle(handle).userId === myUserId) {
+			// 	FOLLOW_BUTTON.style.display = "none"
+			// }
+
+			if (user.following.includes(User.getUserByHandle(handle).userId)) {
+				FOLLOW_BUTTON.classList.remove("follow")
+				FOLLOW_BUTTON.classList.add("unfollow")
+				FOLLOW_BUTTON.textContent = "Unfollow"
+			} else {
+				FOLLOW_BUTTON.classList.remove("unfollow")
+				FOLLOW_BUTTON.classList.add("follow")
+				FOLLOW_BUTTON.textContent = "Follow"
+			}
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+}
+
+FOLLOW_BUTTON.onclick = async () => {
+	if (FOLLOW_BUTTON.classList.contains("follow")) {
+		let user = User.getUserByHandle(handle)
+		let response = await fetch(`${API}/api/followuser`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				userId: myUserId,
+				following: user.userId,
+				create: true,
+			}),
+		})
+		let data = await response.json()
+		if (data.success) {
+			FOLLOW_BUTTON.classList.remove("follow")
+			FOLLOW_BUTTON.classList.add("unfollow")
+			FOLLOW_BUTTON.textContent = "Unfollow"
+			FOLLOWERS.textContent = parseInt(FOLLOWERS.textContent) + 1
+		}
+	} else {
+		let user = User.getUserByHandle(handle)
+		let response = await fetch(`${API}/api/followuser`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				userId: myUserId,
+				following: user.userId,
+				create: false,
+			}),
+		})
+		let data = await response.json()
+		if (data.success) {
+			FOLLOW_BUTTON.classList.remove("unfollow")
+			FOLLOW_BUTTON.classList.add("follow")
+			FOLLOW_BUTTON.textContent = "Follow"
+			FOLLOWERS.textContent = parseInt(FOLLOWERS.textContent) - 1
+		}
+	}
+}
 
 BACK_BUTTON.onclick = () => {
 	window.history.back()

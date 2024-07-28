@@ -9,8 +9,17 @@ class User {
 		users[userId] = user
 	}
 
-	static getUser(userId) {
+	static getUserById(userId) {
 		return users[userId]
+	}
+
+	static getUserByHandle(handle) {
+		for (let userId in users) {
+			if (users[userId].displayName === handle) {
+				return users[userId]
+			}
+		}
+		return undefined
 	}
 }
 
