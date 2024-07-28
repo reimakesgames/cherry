@@ -38,9 +38,9 @@ app.use("/api", GetUser)
 app.use("/api", GetPostStats)
 app.use("/api", PostTweet)
 app.use("/api", LikeTweet)
+app.use("/", express.static("client"))
 app.use("/media", express.static("content/media"))
 app.use("/avatar", express.static("content/avatar"))
-app.use("/", express.static("client"))
 
 app.listen(PORT, () => {
 	console.log(`Server is running on ${PORT}`)
