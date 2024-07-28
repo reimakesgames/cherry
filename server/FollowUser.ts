@@ -6,7 +6,7 @@ const app = express()
 
 app.use(bodyParser.json())
 
-app.get("/followuser", (req, res) => {
+app.post("/followuser", (req, res) => {
 	const { userId, following, create } = req.body
 
 	let user = User.getUserFromId(userId)
