@@ -65,35 +65,39 @@ fetch(`${API}/api/users?username=${handle}`)
 			.catch((error) => {
 				console.error(error)
 			})
+
+		if (myUserId !== null) {
+			fetch(`${API}/api/users?id=${myUserId}`)
+				.then((response) => response.json())
+				.then((user) => {
+					User.setUser(user.userId, user)
+
+					if (User.getUserByHandle(handle).userId === myUserId) {
+						FOLLOW_BUTTON.style.display = "none"
+					}
+
+					if (
+						user.following.includes(
+							User.getUserByHandle(handle).userId
+						)
+					) {
+						FOLLOW_BUTTON.classList.remove("follow")
+						FOLLOW_BUTTON.classList.add("unfollow")
+						FOLLOW_BUTTON.textContent = "Unfollow"
+					} else {
+						FOLLOW_BUTTON.classList.remove("unfollow")
+						FOLLOW_BUTTON.classList.add("follow")
+						FOLLOW_BUTTON.textContent = "Follow"
+					}
+				})
+				.catch((error) => {
+					console.error(error)
+				})
+		}
 	})
 	.catch((error) => {
 		console.error(error)
 	})
-
-if (myUserId !== null) {
-	fetch(`${API}/api/users?id=${myUserId}`)
-		.then((response) => response.json())
-		.then((user) => {
-			User.setUser(user.userId, user)
-
-			// if (User.getUserByHandle(handle).userId === myUserId) {
-			// 	FOLLOW_BUTTON.style.display = "none"
-			// }
-
-			if (user.following.includes(User.getUserByHandle(handle).userId)) {
-				FOLLOW_BUTTON.classList.remove("follow")
-				FOLLOW_BUTTON.classList.add("unfollow")
-				FOLLOW_BUTTON.textContent = "Unfollow"
-			} else {
-				FOLLOW_BUTTON.classList.remove("unfollow")
-				FOLLOW_BUTTON.classList.add("follow")
-				FOLLOW_BUTTON.textContent = "Follow"
-			}
-		})
-		.catch((error) => {
-			console.error(error)
-		})
-}
 
 FOLLOW_BUTTON.onclick = async () => {
 	if (FOLLOW_BUTTON.classList.contains("follow")) {

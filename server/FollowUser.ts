@@ -12,6 +12,8 @@ app.get("/followuser", (req, res) => {
 	let user = User.getUserFromId(userId)
 	let userToFollow = User.getUserFromId(following)
 
+	console.log(user?.displayName, userToFollow?.displayName)
+
 	if (!user || !userToFollow) {
 		return res.status(404).json({
 			error: "User not found",
