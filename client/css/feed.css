@@ -105,6 +105,16 @@ article.empty-feed-message {
 	margin-left: 8px;
 }
 
+.message {
+	color: #888;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	gap: 8px;
+	margin-bottom: 8px;
+	margin-top: -8px;
+}
+
 @media screen and (max-width: 500px) {
 	div.feed {
 		border-left: none;
@@ -132,4 +142,8 @@ article.empty-feed-message {
 .material-symbols-outlined#liked {
 	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 40;
 	color: #ca1919;
+}
+.material-symbols-outlined#retweeted {
+	font-variation-settings: "FILL" 2, "wght" 400, "GRAD" 0, "opsz" 40;
+	color: #91f086;
 }

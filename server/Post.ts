@@ -3,7 +3,7 @@ import { getDb } from "./DB"
 type PostWithNoRelations = {
 	postId: string
 	userId: string
-	content: string
+	content?: string
 	images?: string[]
 	postedAt: Date
 }
@@ -11,9 +11,10 @@ type PostWithNoRelations = {
 export class Post {
 	postId: string = "-1"
 	userId: string = "-1"
-	content: string = ""
+	content?: string = ""
 	images?: string[]
 	postedAt: Date = new Date()
+	retweetOf?: string
 
 	comments: string[] = []
 	likes: string[] = []

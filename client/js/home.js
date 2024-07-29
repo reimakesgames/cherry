@@ -41,8 +41,20 @@ fetch(`${API}/api/feed`)
 		posts.forEach(async (post) => {
 			let user = User.getUserById(post.userId)
 
-			let postObj = Post.newFromApiObj(post)
-			postObj.liked = post.likes.includes(myUserId)
+			let retweet = post.retweetOf || post
+			let postObj = Post.newFromApiObj(retweet)
+			postObj.liked = retweet.likes.includes(myUserId)
+			postObj.retweeted = retweet.retweets.includes(myUserId)
+			if (post.retweetOf !== undefined) {
+				let retweetUser = User.getUserById(post.userId)
+				if (retweetUser === undefined) {
+					retweetUser = await (
+						await fetch(`${API}/api/users/${post.userId}`)
+					).json()
+					User.setUser(post.userId, retweetUser)
+				}
+				postObj.retweetedBy = retweetUser
+			}
 
 			let postHtml = postObj.toHtml()
 

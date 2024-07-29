@@ -86,7 +86,7 @@ app.get("/:postId/stats", (req, res) => {
 
 app.post("/:postId/like", (req, res) => {
 	let { postId } = req.params
-	let intent = req.query.intent || false
+	let intent = req.query.intent === "true"
 	let userId = req.cookies.userId
 
 	verifyPID(res, postId)
@@ -130,6 +130,97 @@ app.post("/:postId/like", (req, res) => {
 
 	db.users[userId] = user
 	setDb(db)
+
+	res.status(200).json({
+		success: true,
+	})
+})
+
+app.post("/:postId/retweet", (req, res) => {
+	let { postId } = req.params
+	let intent = req.query.intent === "true"
+	let userId = req.cookies.userId
+
+	console
+
+	verifyPID(res, postId)
+
+	let db = getDb()
+	let retweetedPost = db.posts.find(
+		(p: any) => p.postId.toString() === postId.toString()
+	)
+
+	if (!retweetedPost) {
+		return res.status(404).json({
+			error: "Post not found",
+		})
+	}
+
+	let user = User.getUserFromId(userId) as any
+
+	let retweeted = retweetedPost.retweets.includes(userId)
+
+	console.log("here")
+
+	if (intent) {
+		console.log("intent is true")
+		if (retweeted) {
+			return res.status(200).json({
+				success: true,
+				retweeted: true,
+			})
+		} else {
+			console.log(`User ${userId} retweeted ${postId}`)
+			retweetedPost.retweets.push(userId)
+
+			let id = BigInt(Date.now())
+			let post = new Post()
+			post.postId = id.toString()
+			post.userId = userId
+			post.retweetOf = postId
+			// @ts-ignore
+			post.retweets = null // @ts-ignore
+			post.likes = null // @ts-ignore
+			post.comments = null // @ts-ignore
+			post.viewsCount = null
+
+			db.posts.push(post)
+
+			user.posts.push(id.toString())
+			db.users[userId] = user
+			setDb(db)
+		}
+	} else {
+		console.log("intent is false")
+		if (!retweeted) {
+			console.log("not retweeted")
+			return res.status(200).json({
+				success: true,
+				retweeted: false,
+			})
+		} else {
+			console.log(`User ${userId} unretweeted ${postId}`)
+			retweetedPost.retweets = retweetedPost.retweets.filter(
+				(id: any) => id !== userId
+			)
+
+			let post = db.posts.find(
+				(p: any) => p.retweetOf === postId && p.userId === userId
+			)
+
+			if (post) {
+				console.log(`Deleted retweet ${post.postId}`)
+				console.log(
+					db.posts.findIndex((p: any) => p.postId === post.postId)
+				)
+				db.posts = db.posts.filter((p: any) => p.postId !== post.postId)
+				user.posts = user.posts.filter((id: any) => id !== post.postId)
+			}
+
+			db.users[userId] = user
+			setDb(db)
+		}
+	}
 
 	res.status(200).json({
 		success: true,

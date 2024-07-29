@@ -58,6 +58,8 @@ function registerView(postId) {
 }
 
 class Post {
+	retweetedBy = null // User object, logic relies on this being null or not, not a boolean
+
 	user = new User()
 	postId = "-1"
 	postedAt = new Date()
@@ -98,6 +100,10 @@ class Post {
 		html.getElementsByClassName("count")[3].textContent = views
 	}
 
+	static updateRetweets(html, retweets) {
+		html.getElementsByClassName("count")[1].textContent = retweets
+	}
+
 	/**
 	 * Creates a new Post object from an API response object
 	 * @param {Object} post
@@ -119,7 +125,11 @@ class Post {
 
 	toHtml() {
 		let post = n("article")
+		post.id = `post-${this.postId}`
 		post.classList.add("post")
+		if (this.retweetedBy) {
+			post.appendChild(this.generateMessage())
+		}
 		post.appendChild(this.generateHeader())
 		post.appendChild(this.generateContent())
 		post.appendChild(this.generateActions())
@@ -144,6 +154,20 @@ class Post {
 			observer.observe(post)
 		}
 		return post
+	}
+
+	// generates the beloved "user retweeted" message
+	generateMessage() {
+		let message = n("div")
+		message.classList.add("message")
+		let icon = n("span")
+		icon.classList.add("material-symbols-outlined")
+		icon.textContent = "cached"
+		let text = n("span")
+		text.textContent = `${this.retweetedBy.displayName} retweeted`
+		message.appendChild(icon)
+		message.appendChild(text)
+		return message
 	}
 
 	generateHeader() {
@@ -200,7 +224,6 @@ class Post {
 		mainActions.classList.add("main-actions")
 		footer.appendChild(mainActions)
 		let actions = ["mode_comment", "cached", "favorite", "bar_chart"]
-		let actionsIds = ["comments", "retweets", "likes", "views"]
 		let counts = [
 			this.comments.length,
 			this.retweets.length,
@@ -236,6 +259,38 @@ class Post {
 							button.id = this.liked ? "liked" : ""
 							let likeCount = parseInt(span.textContent)
 							span.textContent = likeCount + (this.liked ? 1 : -1)
+						}
+					}
+					xhr.send()
+				})
+			} else if (action === "cached") {
+				button.id = this.retweeted ? "retweeted" : ""
+				button.addEventListener("click", async () => {
+					console.log("intent", !this.retweeted)
+					let xhr = new XMLHttpRequest()
+					xhr.open(
+						"POST",
+						`${API}/api/posts/${this.postId}/retweet?intent=${!this
+							.retweeted}`,
+						true
+					)
+					xhr.setRequestHeader("Content-Type", "application/json")
+					xhr.onreadystatechange = async () => {
+						if (xhr.readyState === 4 && xhr.status === 200) {
+							this.retweeted = !this.retweeted
+							button.id = this.retweeted ? "retweeted" : ""
+							let retweetCount = parseInt(span.textContent)
+							span.textContent =
+								retweetCount + (this.retweeted ? 1 : -1)
+
+							// if this is the retweet post, delete it
+							if (this.retweetedBy) {
+								let parent =
+									button.parentElement.parentElement
+										.parentElement.parentElement
+								parent.remove()
+								return
+							}
 						}
 					}
 					xhr.send()
