@@ -72,6 +72,7 @@ class Post {
 	 * @returns {Post}
 	 */
 	static newFromApiObj(post) {
+		let p = new Post()
 		p.user = User.getUserById(post.userId)
 		p.postId = post.postId
 		p.content = post.content
