@@ -46,6 +46,7 @@ fetch(`${API}/api/users/@${handle}`)
 				console.log(posts)
 				posts.sort((a, b) => b.postId - a.postId)
 				posts.forEach(async (post) => {
+					let user = User.getUserById(post?.retweetOf?.userId || post.userId)
 					let retweet = post.retweetOf || post
 					let postObj = Post.newFromApiObj(retweet)
 					postObj.liked = retweet.likes.includes(myUserId)
