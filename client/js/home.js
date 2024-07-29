@@ -30,7 +30,7 @@ function BuildPost(post) {
 	p.user = User.getUserById(post.userId)
 	p.liked = post.likes.includes(myUserId)
 	p.postId = post.postId
-	p.caption = post.content
+	p.content = post.content
 	p.images = post.images
 	p.postedAt = new Date(post.postedAt)
 	p.likes = post.likes
@@ -47,14 +47,17 @@ fetch(`${API}/api/feed`)
 		posts.forEach(async (post) => {
 			let user = User.getUserById(post.userId)
 
+			let postHtml = BuildPost(post).toHtml()
+			FEED.appendChild(postHtml)
+
 			if (user === undefined) {
 				user = await (
 					await fetch(`${API}/api/users?id=${post.userId}`)
 				).json()
 				User.setUser(post.userId, user)
 			}
-
-			FEED.appendChild(BuildPost(post).toHtml())
+			Post.updateUser(postHtml, user)
+			console.log(`Hydrated post ${post.postId}`)
 		})
 	})
 	.catch((error) => {

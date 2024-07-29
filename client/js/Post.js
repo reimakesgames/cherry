@@ -25,9 +25,11 @@ function timeSince(date) {
 		return interval + "h"
 	}
 	interval = Math.floor(seconds / 60)
-	console.log(interval)
 	if (interval >= 1) {
 		return interval + "m"
+	}
+	if (seconds < 0) {
+		return "0s"
 	}
 	return Math.floor(seconds) + "s"
 }
@@ -37,7 +39,7 @@ class Post {
 	postId = "-1"
 	postedAt = new Date()
 
-	caption = "This is a caption"
+	content = ""
 	images = []
 
 	viewsCount = 0
@@ -47,6 +49,22 @@ class Post {
 	comments = []
 	likes = []
 	retweets = []
+
+	/**
+	 *
+	 * @param {HTMLDivElement} post
+	 * @param {*} user
+	 */
+	static updateUser(html, user) {
+		let avatar = html.getElementsByClassName("profile")[0]
+		avatar.src = `${API}/avatar/${user.avatarId}`
+		avatar.onclick = () => {
+			window.location.href = `${API}/@${user.displayName}`
+		}
+		html.getElementsByClassName("name")[0].textContent = user.displayName
+		html.getElementsByClassName("handle")[0].textContent =
+			"@" + user.displayName
+	}
 
 	toHtml() {
 		let post = n("div")
@@ -63,16 +81,18 @@ class Post {
 		let avatar = n("img")
 		avatar.crossOrigin = "anonymous"
 		avatar.classList.add("profile")
-		avatar.src = `${API}/avatar/${this.user.avatarId}`
+		avatar.src = this.user?.avatarId
+			? `${API}/avatar/${this.user?.avatarId}`
+			: `${API}/img/discord.png`
 		avatar.onclick = () => {
-			window.location.href = `${API}/@${this.user.displayName}`
+			window.location.href = `${API}/@${this.user?.displayName}`
 		}
 		let name = n("span")
 		name.classList.add("name")
-		name.textContent = this.user.displayName
+		name.textContent = this.user?.displayName || "loading"
 		let handle = n("span")
 		handle.classList.add("handle")
-		handle.textContent = "@" + this.user.displayName
+		handle.textContent = "@" + (this.user?.displayName || "loading")
 		let date = n("span")
 		date.classList.add("date")
 		date.textContent = timeSince(this.postedAt)
@@ -88,7 +108,7 @@ class Post {
 		content.classList.add("content")
 		let text = n("div")
 		text.classList.add("text")
-		text.textContent = this.caption
+		text.textContent = this.content
 		content.appendChild(text)
 		if (this.images !== undefined && this.images.length > 0) {
 			let image = n("div")
