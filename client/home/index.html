@@ -12,54 +12,90 @@
 		<title>Cherry - Home</title>
 	</head>
 	<body>
-		<div class="navbar">
-			<img
-				class="profile"
-				id="navbar-profile"
-				src=".././img/discord.png"
-			/>
-			<div class="logo-container">
-				<img
-					class="logo"
-					src=".././img/cherry_white_ico.png"
-					alt="Cherry"
-				/>
-				<span class="logo-text">Cherry</span>
-			</div>
-			<button class="material-symbols-outlined">settings</button>
-		</div>
-		<div class="feed">
-			<article class="post">
-				<div class="header">
-					<img
-						class="profile"
-						id="postbox-profile"
-						src=".././img/discord.png"
-					/>
-					<span class="name" id="postbox-user">loading</span>
-					<span class="handle" id="postbox-handle">@loading</span>
-				</div>
-				<div class="content">
-					<div class="text">
-						<input
-							type="text"
-							placeholder="Write anything!"
-							id="input-box"
-						/>
-						<button class="submit" id="post-button">Post</button>
-					</div>
-				</div>
-			</article>
-			<div id="inner-feed"></div>
-			<article class="empty-feed-message">
-				Hmm... It's a bit empty here.
-			</article>
-		</div>
-		<div class="footer">
+		<div class="mobile-navbar">
 			<button class="material-symbols-outlined">home</button>
 			<button class="material-symbols-outlined">search</button>
 			<button class="material-symbols-outlined">notifications</button>
 			<button class="material-symbols-outlined">mail</button>
+		</div>
+		<div class="main">
+			<div class="navbar">
+				<div class="logo-container-container">
+					<div class="logo-container">
+						<img
+							class="logo"
+							src=".././img/cherry_white_ico.png"
+							alt="Cherry"
+						/>
+						<span class="logo-text">Cherry</span>
+					</div>
+				</div>
+				<div class="navbar-buttons">
+					<div class="container">
+						<button class="material-symbols-outlined">home</button>
+						<span class="label">Home</span>
+					</div>
+					<div class="container">
+						<button class="material-symbols-outlined">
+							search
+						</button>
+						<span class="label">Search</span>
+					</div>
+					<div class="container">
+						<button class="material-symbols-outlined">
+							notifications
+						</button>
+						<span class="label">Notifications</span>
+					</div>
+				</div>
+				<div class="profile"></div>
+			</div>
+			<div class="feed">
+				<div class="topbar">Feed</div>
+				<div class="mobile-topbar">
+					<img
+						class="profile"
+						id="topbar-profile"
+						src=".././img/discord.png"
+					/>
+					<div class="logo-container">
+						<img
+							class="logo"
+							src=".././img/cherry_white_ico.png"
+							alt="Cherry"
+						/>
+						<span class="logo-text">Cherry</span>
+					</div>
+					<button class="material-symbols-outlined">settings</button>
+				</div>
+				<article class="post">
+					<div class="header">
+						<img
+							class="profile"
+							id="postbox-profile"
+							src=".././img/discord.png"
+						/>
+						<span class="name" id="postbox-user">loading</span>
+						<span class="handle" id="postbox-handle">@loading</span>
+					</div>
+					<div class="content">
+						<div class="text">
+							<input
+								type="text"
+								placeholder="Write anything!"
+								id="input-box"
+							/>
+							<button class="submit" id="post-button">
+								Post
+							</button>
+						</div>
+					</div>
+				</article>
+				<div id="inner-feed"></div>
+				<article class="empty-feed-message">
+					Hmm... It's a bit empty here. Why not post something?
+				</article>
+			</div>
 		</div>
 		<div class="post-button">
 			<button class="material-symbols-outlined">add</button>

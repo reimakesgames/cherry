@@ -86,7 +86,7 @@ class Post {
 	}
 
 	toHtml() {
-		let post = n("div")
+		let post = n("article")
 		post.classList.add("post")
 		post.appendChild(this.generateHeader())
 		post.appendChild(this.generateContent())

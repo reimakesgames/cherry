@@ -1,29 +1,38 @@
 div.feed {
-	margin-top: 48px;
-	margin-bottom: 64px;
 	max-width: 600px;
-	margin-left: auto;
-	margin-right: auto;
+	padding-top: 48px;
+	margin-bottom: 64px;
 	border-left: 1px solid #3f3f3f;
 	border-right: 1px solid #3f3f3f;
+	width: 100%;
 }
 
-div.feed .post {
+div.feed article.post {
 	background-color: #00000000;
 	padding: 16px;
 	border-bottom: 1px solid #1f1f1f;
 }
-.material-symbols-outlined {
-	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 40;
-}
-.material-symbols-outlined#liked {
-	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 40;
-	color: #ca1919;
-}
 
-.post .header {
+article.post > div.header {
 	display: flex;
 	align-items: center;
+}
+
+article.post > div.content {
+	margin-top: 8px;
+}
+
+article.post > div.actions {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	margin-top: 8px;
+}
+
+article.empty-feed-message {
+	padding-top: 48px;
+	text-align: center;
+	padding-bottom: 64px;
 }
 
 .header .profile {
@@ -54,15 +63,11 @@ div.feed .post {
 	margin-right: 8px;
 }
 
-.post .content {
-	margin-top: 8px;
-}
-
-.post .content .text {
+.content .text {
 	margin-bottom: 16px;
 }
 
-.post .content .image {
+.content .image {
 	width: 100%;
 	max-height: 360px;
 	border-radius: 8px;
@@ -72,29 +77,8 @@ div.feed .post {
 	align-items: center;
 }
 
-@media screen and (max-width: 600px) {
-	div.feed {
-		border-left: none;
-		border-right: none;
-	}
-
-	.post .content .image {
-		width: 100%;
-		border-radius: 8px;
-		max-height: 60vmin;
-		overflow: hidden;
-	}
-}
-
-.post .content .image img {
+.content .image img {
 	width: 100%;
-}
-
-.post .actions {
-	display: flex;
-	justify-content: space-between;
-	gap: 16px;
-	margin-top: 8px;
 }
 
 .actions .main-actions {
@@ -121,8 +105,31 @@ div.feed .post {
 	margin-left: 8px;
 }
 
-article.empty-feed-message {
-	padding-top: 48px;
-	text-align: center;
-	padding-bottom: 64px;
+@media screen and (max-width: 500px) {
+	div.feed {
+		border-left: none;
+		border-right: none;
+		min-width: none;
+	}
+
+	.content .image {
+		width: 100%;
+		border-radius: 8px;
+		max-height: 60vmin;
+		overflow: hidden;
+	}
+}
+
+/* @media screen and (max-width: 720px) {
+} */
+/*
+@media screen and (max-width: 600px) {
+} */
+
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 40;
+}
+.material-symbols-outlined#liked {
+	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 40;
+	color: #ca1919;
 }
