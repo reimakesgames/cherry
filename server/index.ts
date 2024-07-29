@@ -1,14 +1,14 @@
 import express from "express"
 import fs from "fs"
 
+fs.mkdirSync("content/avatar", { recursive: true })
+fs.mkdirSync("content/media", { recursive: true })
+fs.writeFileSync("content/db.json", `{"users": [], "posts": []}`)
+
 require("dotenv").config()
 ;(BigInt.prototype as any).toJSON = function () {
 	return this.toString()
 }
-
-fs.mkdirSync("/app/content/avatar", { recursive: true })
-fs.mkdirSync("/app/content/media", { recursive: true })
-fs.writeFileSync("/app/content/db.json", `{"users": [], "posts": []}`)
 
 import { GetFeedAlgorithm } from "./GetFeedAlgorithm.js"
 import { AuthAPI } from "./AuthAPI.js"
