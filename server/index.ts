@@ -6,9 +6,9 @@ require("dotenv").config()
 	return this.toString()
 }
 
-fs.mkdirSync("content/avatar", { recursive: true })
-fs.mkdirSync("content/media", { recursive: true })
-fs.writeFileSync("content/db.json", `{"users": [], "posts": []}`)
+fs.mkdirSync("/app/content/avatar", { recursive: true })
+fs.mkdirSync("/app/content/media", { recursive: true })
+fs.writeFileSync("/app/content/db.json", `{"users": [], "posts": []}`)
 
 import { GetFeedAlgorithm } from "./GetFeedAlgorithm.js"
 import { AuthAPI } from "./AuthAPI.js"
