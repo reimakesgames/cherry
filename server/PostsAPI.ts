@@ -136,6 +136,31 @@ app.post("/:postId/like", (req, res) => {
 	})
 })
 
+app.post("/:postId/view", (req, res) => {
+	let { postId } = req.params
+
+	verifyPID(res, postId)
+
+	let db = getDb()
+	let post = db.posts.find(
+		(p: any) => p.postId.toString() === postId.toString()
+	)
+
+	if (!post) {
+		return res.status(404).json({
+			error: "Post not found",
+		})
+	}
+
+	post.viewsCount++
+
+	setDb(db)
+
+	res.status(200).json({
+		success: true,
+	})
+})
+
 app.post("/create", (req, res) => {
 	let { content } = req.body
 	let userId = req.cookies.userId

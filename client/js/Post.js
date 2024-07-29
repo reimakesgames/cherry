@@ -6,6 +6,22 @@ function n(element) {
 	return document.createElement(element)
 }
 
+/**
+ * @param {Element} el
+ * @returns {boolean}
+ */
+function inView(el) {
+	const rect = el.getBoundingClientRect()
+	return (
+		rect.top >= 0 &&
+		rect.left >= 0 &&
+		rect.bottom <=
+			(window.innerHeight || document.documentElement.clientHeight) &&
+		rect.right <=
+			(window.innerWidth || document.documentElement.clientWidth)
+	)
+}
+
 function timeSince(date) {
 	let seconds = Math.floor((new Date() - date) / 1000)
 	let interval = Math.floor(seconds / 31536000)
@@ -32,6 +48,13 @@ function timeSince(date) {
 		return "0s"
 	}
 	return Math.floor(seconds) + "s"
+}
+
+function registerView(postId) {
+	let xhr = new XMLHttpRequest()
+	xhr.open("POST", `${API}/api/posts/${postId}/view`, true)
+	xhr.setRequestHeader("Content-Type", "application/json")
+	xhr.send()
 }
 
 class Post {
@@ -67,6 +90,15 @@ class Post {
 	}
 
 	/**
+	 * Updates the views data in a post HTML
+	 * @param {HTMLDivElement} post
+	 * @param {*} views
+	 */
+	static updatePost(html, views) {
+		html.getElementsByClassName("count")[3].textContent = views
+	}
+
+	/**
 	 * Creates a new Post object from an API response object
 	 * @param {Object} post
 	 * @returns {Post}
@@ -91,6 +123,26 @@ class Post {
 		post.appendChild(this.generateHeader())
 		post.appendChild(this.generateContent())
 		post.appendChild(this.generateActions())
+
+		// If during the creation of the post the post is in view, register the view
+		// Otherwise, create an observer to register the view when the post is in view
+		// This ensures that the view is registered only once because intersection
+		// observers are weird and trigger randomly if in view
+		if (inView(post)) {
+			registerView(this.postId)
+			this.viewsCount++
+			Post.updatePost(post, this.viewsCount)
+		} else {
+			const observer = new IntersectionObserver(async (entries) => {
+				if (entries[0].isIntersecting) {
+					registerView(this.postId)
+					observer.disconnect()
+					this.viewsCount++
+					Post.updatePost(post, this.viewsCount)
+				}
+			})
+			observer.observe(post)
+		}
 		return post
 	}
 
@@ -148,6 +200,7 @@ class Post {
 		mainActions.classList.add("main-actions")
 		footer.appendChild(mainActions)
 		let actions = ["mode_comment", "cached", "favorite", "bar_chart"]
+		let actionsIds = ["comments", "retweets", "likes", "views"]
 		let counts = [
 			this.comments.length,
 			this.retweets.length,
