@@ -3,7 +3,8 @@ import fs from "fs"
 
 fs.mkdirSync("content/avatar", { recursive: true })
 fs.mkdirSync("content/media", { recursive: true })
-fs.writeFileSync("content/db.json", `{"users": [], "posts": []}`)
+fs.writeFileSync("content/db.json", `{"users": [], "posts": []}`, "utf-8")
+console.log(fs.readFileSync("content/db.json", "utf-8"))
 
 require("dotenv").config()
 ;(BigInt.prototype as any).toJSON = function () {
