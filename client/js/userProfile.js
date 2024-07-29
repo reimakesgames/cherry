@@ -25,24 +25,10 @@ const FOLLOWING = document.getElementById("following-stat")
 
 const FEED = document.getElementById("inner-feed")
 
-function BuildPost(post) {
-	let p = new Post()
-	p.user = User.getUserById(post.userId)
-	p.liked = post.likes.includes(myUserId)
-	p.postId = post.postId
-	p.caption = post.content
-	p.images = post.images
-	p.postedAt = new Date(post.postedAt)
-	p.likes = post.likes
-	p.comments = post.comments
-	p.retweets = post.retweets
-	p.viewsCount = post.viewsCount
-	return p
-}
-
-fetch(`${API}/api/users?username=${handle}`)
+fetch(`${API}/api/users/@${handle}`)
 	.then((response) => response.json())
 	.then((user) => {
+		user = user.user
 		User.setUser(user.userId, user)
 
 		DISPLAY_NAME_QUICK_VIEW.textContent = user.displayName
@@ -54,12 +40,39 @@ fetch(`${API}/api/users?username=${handle}`)
 		FOLLOWING.textContent = user.following.length
 
 		POSTS_QUICK_VIEW.textContent = `${user.posts.length} posts`
-		fetch(`${API}/api/@${handle}/posts`)
+		fetch(`${API}/api/users/${user.userId}/posts`)
 			.then((response) => response.json())
 			.then((posts) => {
+				console.log(posts)
 				posts.sort((a, b) => b.postId - a.postId)
 				posts.forEach(async (post) => {
-					FEED.appendChild(BuildPost(post).toHtml())
+					let retweet = post.retweetOf || post
+					let postObj = Post.newFromApiObj(retweet)
+					postObj.liked = retweet.likes.includes(myUserId)
+					postObj.retweeted = retweet.retweets.includes(myUserId)
+					if (post.retweetOf !== undefined) {
+						let retweetUser = User.getUserById(post.userId)
+						if (retweetUser === undefined) {
+							retweetUser = await (
+								await fetch(`${API}/api/users/${post.userId}`)
+							).json()
+							User.setUser(post.userId, retweetUser)
+						}
+						postObj.retweetedBy = retweetUser
+					}
+
+					let postHtml = postObj.toHtml()
+
+					FEED.appendChild(postHtml)
+
+					if (user === undefined) {
+						user = await (
+							await fetch(`${API}/api/users/${post.userId}`)
+						).json()
+						User.setUser(post.userId, user)
+					}
+					Post.updateUser(postHtml, user)
+					console.log(`Hydrated post ${post.postId}`)
 				})
 			})
 			.catch((error) => {
@@ -67,9 +80,10 @@ fetch(`${API}/api/users?username=${handle}`)
 			})
 
 		if (myUserId !== null) {
-			fetch(`${API}/api/users?id=${myUserId}`)
+			fetch(`${API}/api/users/${myUserId}`)
 				.then((response) => response.json())
 				.then((user) => {
+					user = user.user
 					User.setUser(user.userId, user)
 
 					if (User.getUserByHandle(handle).userId === myUserId) {
@@ -102,16 +116,11 @@ fetch(`${API}/api/users?username=${handle}`)
 FOLLOW_BUTTON.onclick = async () => {
 	if (FOLLOW_BUTTON.classList.contains("follow")) {
 		let user = User.getUserByHandle(handle)
-		let response = await fetch(`${API}/api/followuser`, {
+		let response = await fetch(`${API}/api/users/${user.userId}/follow`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				userId: myUserId,
-				following: user.userId,
-				create: true,
-			}),
 		})
 		let data = await response.json()
 		if (data.success) {
@@ -122,16 +131,11 @@ FOLLOW_BUTTON.onclick = async () => {
 		}
 	} else {
 		let user = User.getUserByHandle(handle)
-		let response = await fetch(`${API}/api/followuser`, {
+		let response = await fetch(`${API}/api/users/${user.userId}/unfollow`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				userId: myUserId,
-				following: user.userId,
-				create: false,
-			}),
 		})
 		let data = await response.json()
 		if (data.success) {

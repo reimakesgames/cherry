@@ -59,9 +59,27 @@ app.get("/:id/posts", (req, res) => {
 		})
 	}
 
-	let posts = user.posts.map((postId) => {
-		return Post.getPostFromId(postId)
-	})
+	let db = getDb()
+
+	let posts = user.posts
+		.map((postId) => {
+			return Post.getPostFromId(postId)
+		})
+		.map((p: any) => {
+			let post = { ...p }
+
+			if (post.retweetOf) {
+				let retweet = db.posts.find(
+					(p: any) => p.postId === post.retweetOf
+				)
+
+				if (retweet) {
+					post.retweetOf = retweet
+				}
+			}
+
+			return post
+		})
 
 	res.status(200).json(posts)
 })

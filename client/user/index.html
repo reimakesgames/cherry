@@ -24,47 +24,84 @@
 				<span class="post-count" id="posts-quick-view">0 posts</span>
 			</div>
 		</header>
-		<div class="feed">
-			<div class="user-info">
-				<img src="../img/background.png" alt="" class="banner" />
-				<img
-					src="../img/discord.png"
-					alt=""
-					class="profile-large"
-					id="profile"
-				/>
-				<div class="quick-actions">
-					<button class="follow" id="follow-button" following="false">
-						Follow
-					</button>
-				</div>
-				<div class="name-container">
-					<span class="display-name" id="display-name"
-						>display name</span
-					>
-					<span class="handle" id="handle">@handle</span>
-				</div>
-				<div class="bio"></div>
-				<div class="stats">
-					<div class="stat">
-						<span class="number" id="followers-stat">0</span>
-						<span class="label">followers</span>
-					</div>
-					<div class="stat">
-						<span class="number" id="following-stat">0</span>
-						<span class="label">following</span>
+		<div class="main">
+			<div class="navbar">
+				<div class="logo-container-container">
+					<div class="logo-container">
+						<img
+							class="logo"
+							src=".././img/cherry_white_ico.png"
+							alt="Cherry"
+						/>
+						<span class="logo-text">Cherry</span>
 					</div>
 				</div>
-				<div class="tabs">
-					<button class="tab" id="posts-tab">Posts</button>
-					<button class="tab" id="media-tab">Media</button>
-					<button class="tab" id="likes-tab">Likes</button>
+				<div class="navbar-buttons">
+					<div class="container">
+						<button class="material-symbols-outlined">home</button>
+						<span class="label">Home</span>
+					</div>
+					<div class="container">
+						<button class="material-symbols-outlined">
+							search
+						</button>
+						<span class="label">Search</span>
+					</div>
+					<div class="container">
+						<button class="material-symbols-outlined">
+							notifications
+						</button>
+						<span class="label">Notifications</span>
+					</div>
 				</div>
+				<div class="profile"></div>
 			</div>
-			<div id="inner-feed"></div>
-			<article class="empty-feed-message">
-				Hmm... It's a bit empty here.
-			</article>
+			<div class="feed">
+				<div class="user-info">
+					<img src="../img/background.png" alt="" class="banner" />
+					<img
+						src="../img/discord.png"
+						alt=""
+						class="profile-large"
+						id="profile"
+					/>
+					<div class="quick-actions">
+						<button
+							class="follow"
+							id="follow-button"
+							following="false"
+						>
+							Follow
+						</button>
+					</div>
+					<div class="name-container">
+						<span class="display-name" id="display-name"
+							>display name</span
+						>
+						<span class="handle" id="handle">@handle</span>
+					</div>
+					<div class="bio"></div>
+					<div class="stats">
+						<div class="stat">
+							<span class="number" id="followers-stat">0</span>
+							<span class="label">followers</span>
+						</div>
+						<div class="stat">
+							<span class="number" id="following-stat">0</span>
+							<span class="label">following</span>
+						</div>
+					</div>
+					<div class="tabs">
+						<button class="tab" id="posts-tab">Posts</button>
+						<button class="tab" id="media-tab">Media</button>
+						<button class="tab" id="likes-tab">Likes</button>
+					</div>
+				</div>
+				<div id="inner-feed"></div>
+				<article class="empty-feed-message">
+					Hmm... It's a bit empty here.
+				</article>
+			</div>
 		</div>
 		<script src="../js/userProfile.js" type="module"></script>
 	</body>

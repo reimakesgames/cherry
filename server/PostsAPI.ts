@@ -160,10 +160,7 @@ app.post("/:postId/retweet", (req, res) => {
 
 	let retweeted = retweetedPost.retweets.includes(userId)
 
-	console.log("here")
-
 	if (intent) {
-		console.log("intent is true")
 		if (retweeted) {
 			return res.status(200).json({
 				success: true,
@@ -191,9 +188,7 @@ app.post("/:postId/retweet", (req, res) => {
 			setDb(db)
 		}
 	} else {
-		console.log("intent is false")
 		if (!retweeted) {
-			console.log("not retweeted")
 			return res.status(200).json({
 				success: true,
 				retweeted: false,
