@@ -17,28 +17,22 @@ if (myUserId !== null) {
 	localStorage.setItem("userId", myUserId)
 	window.history.replaceState({}, document.title, "/home/")
 }
-let userAccount = await (await fetch(`${API}/api/users?id=${myUserId}`)).json()
-User.setUser(myUserId, userAccount)
+let myUser
 
-NAVBAR_PROFILE.src = `${API}/avatar/${userAccount.avatarId}`
-POSTBOX_PROFILE.src = `${API}/avatar/${userAccount.avatarId}`
-POSTBOX_USER.textContent = userAccount.displayName
-POSTBOX_HANDLE.textContent = "@" + userAccount.displayName
+fetch(`${API}/api/users/${myUserId}`)
+	.then((response) => response.json())
+	.then((data) => {
+		myUser = data.user
+		User.setUser(myUserId, myUser)
 
-function BuildPost(post) {
-	let p = new Post()
-	p.user = User.getUserById(post.userId)
-	p.liked = post.likes.includes(myUserId)
-	p.postId = post.postId
-	p.content = post.content
-	p.images = post.images
-	p.postedAt = new Date(post.postedAt)
-	p.likes = post.likes
-	p.comments = post.comments
-	p.retweets = post.retweets
-	p.viewsCount = post.viewsCount
-	return p
-}
+		NAVBAR_PROFILE.src = `${API}/avatar/${myUser.avatarId}`
+		POSTBOX_PROFILE.src = `${API}/avatar/${myUser.avatarId}`
+		POSTBOX_USER.textContent = myUser.displayName
+		POSTBOX_HANDLE.textContent = "@" + myUser.displayName
+	})
+	.catch((error) => {
+		console.error(error)
+	})
 
 fetch(`${API}/api/feed`)
 	.then((response) => response.json())
@@ -47,12 +41,14 @@ fetch(`${API}/api/feed`)
 		posts.forEach(async (post) => {
 			let user = User.getUserById(post.userId)
 
-			let postHtml = BuildPost(post).toHtml()
-			FEED.appendChild(postHtml)
+			let postObj = Post.newFromApiObj(post)
+			postObj.liked = post.likes.includes(myUserId)
+
+			FEED.appendChild(postObj.toHtml())
 
 			if (user === undefined) {
 				user = await (
-					await fetch(`${API}/api/users?id=${post.userId}`)
+					await fetch(`${API}/api/users/${post.userId}`)
 				).json()
 				User.setUser(post.userId, user)
 			}
@@ -77,22 +73,15 @@ function PostTweet() {
 	let json = JSON.stringify({ content: text })
 
 	let xhr = new XMLHttpRequest()
-	xhr.open("POST", `${API}/api/posttweet`, true)
+	xhr.open("POST", `${API}/api/posts/create`, true)
 	xhr.setRequestHeader("Content-Type", "application/json")
-	xhr.onreadystatechange = async () => {
+	xhr.onreadystatechange = () => {
 		if (xhr.readyState === 4 && xhr.status === 200) {
 			let res = JSON.parse(xhr.responseText)
 			let post = res.post
 			INPUT_BOX.value = ""
 
-			let user = User.getUserById(post.userId)
-			if (user === undefined) {
-				user = await (
-					await fetch(`${API}/api/users?id=${post.userId}`)
-				).json()
-			}
-
-			FEED.prepend(BuildPost(post).toHtml())
+			FEED.prepend(Post.newFromApiObj(post).toHtml())
 		}
 	}
 	xhr.send(json)

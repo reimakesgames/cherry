@@ -84,4 +84,4 @@ app.get("/redirect", async (req, res) => {
 	res.redirect(`${URL}/home?userId=${apiUser.id}`)
 })
 
-export { app as Auth }
+export { app as AuthAPI }

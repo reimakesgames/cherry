@@ -51,7 +51,7 @@ class Post {
 	retweets = []
 
 	/**
-	 *
+	 * Updates the user data in a post HTML
 	 * @param {HTMLDivElement} post
 	 * @param {*} user
 	 */
@@ -64,6 +64,24 @@ class Post {
 		html.getElementsByClassName("name")[0].textContent = user.displayName
 		html.getElementsByClassName("handle")[0].textContent =
 			"@" + user.displayName
+	}
+
+	/**
+	 * Creates a new Post object from an API response object
+	 * @param {Object} post
+	 * @returns {Post}
+	 */
+	static newFromApiObj(post) {
+		p.user = User.getUserById(post.userId)
+		p.postId = post.postId
+		p.content = post.content
+		p.images = post.images
+		p.postedAt = new Date(post.postedAt)
+		p.likes = post.likes
+		p.comments = post.comments
+		p.retweets = post.retweets
+		p.viewsCount = post.viewsCount
+		return p
 	}
 
 	toHtml() {
@@ -153,7 +171,7 @@ class Post {
 					let xhr = new XMLHttpRequest()
 					xhr.open(
 						"POST",
-						`${API}/api/liketweet?postId=${this.postId}&like=${!this
+						`${API}/api/posts/${this.postId}/like?intent=${!this
 							.liked}`,
 						true
 					)
