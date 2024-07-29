@@ -5,6 +5,7 @@ import bodyParser from "body-parser"
 import { User } from "./User.js"
 import { VerifyMiddleware } from "./VerifyMiddleware.js"
 import { Post } from "./Post.js"
+import { getDb, setDb } from "./DB.js"
 
 const app = express()
 
@@ -80,6 +81,11 @@ app.post("/:id/follow", (req, res) => {
 
 	user.following.push(toFollowId)
 	toFollow.followers.push(userId)
+
+	let db = getDb()
+	db.users[userId] = user
+	db.users[toFollowId] = toFollow
+	setDb(db)
 
 	res.status(200).json({
 		success: true,

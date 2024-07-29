@@ -128,6 +128,7 @@ app.post("/:postId/like", (req, res) => {
 		}
 	}
 
+	db.users[userId] = user
 	setDb(db)
 
 	res.status(200).json({

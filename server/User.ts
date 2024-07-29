@@ -52,11 +52,6 @@ class User {
 		user.userId = apiUser.id
 		user.avatarId = avatarFilename
 
-		user.followers = []
-		user.following = []
-		user.posts = []
-		user.likes = []
-
 		this.setUser(apiUser.id, user)
 	}
 }
