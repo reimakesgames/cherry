@@ -44,7 +44,9 @@ fetch(`${API}/api/feed`)
 			let postObj = Post.newFromApiObj(post)
 			postObj.liked = post.likes.includes(myUserId)
 
-			FEED.appendChild(postObj.toHtml())
+			let postHtml = postObj.toHtml()
+
+			FEED.appendChild(postHtml)
 
 			if (user === undefined) {
 				user = await (
