@@ -104,12 +104,28 @@ app.post("/:postId/like", (req, res) => {
 
 	let user = User.getUserFromId(userId) as any
 
+	let liked = post.likes.includes(userId)
+
 	if (intent) {
-		post.likes.push(userId)
-		user.likes.push(post.postId)
+		if (liked) {
+			return res.status(200).json({
+				success: true,
+				liked: true,
+			})
+		} else {
+			post.likes.push(userId)
+			user.likes.push(post.postId)
+		}
 	} else {
-		post.likes = post.likes.filter((id: any) => id !== userId)
-		user.likes = user.likes.filter((id: any) => id !== post.postId)
+		if (!liked) {
+			return res.status(200).json({
+				success: true,
+				liked: false,
+			})
+		} else {
+			post.likes = post.likes.filter((id: any) => id !== userId)
+			user.likes = user.likes.filter((id: any) => id !== post.postId)
+		}
 	}
 
 	setDb(db)
