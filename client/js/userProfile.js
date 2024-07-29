@@ -68,9 +68,9 @@ fetch(`${API}/api/users/@${handle}`)
 
 					if (user === undefined) {
 						user = await (
-							await fetch(`${API}/api/users/${post.userId}`)
+							await fetch(`${API}/api/users/${post?.retweetOf?.userId || post.userId}`)
 						).json()
-						User.setUser(post.userId, user)
+						User.setUser(post?.retweetOf?.userId || post.userId, user)
 					}
 					Post.updateUser(postHtml, user)
 					console.log(`Hydrated post ${post.postId}`)
