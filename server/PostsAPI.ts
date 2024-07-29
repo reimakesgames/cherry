@@ -264,6 +264,7 @@ app.post("/create", (req, res) => {
 	db.posts.push(post)
 
 	user.posts.push(id.toString())
+	db.users[userId] = user
 	setDb(db)
 
 	res.status(200).json({

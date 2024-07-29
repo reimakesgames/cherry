@@ -1,9 +1,15 @@
 import express from "express"
+import fs from "fs"
 
 require("dotenv").config()
 ;(BigInt.prototype as any).toJSON = function () {
 	return this.toString()
 }
+
+fs.mkdirSync("content", { recursive: true })
+fs.mkdirSync("content/avatar", { recursive: true })
+fs.mkdirSync("content/media", { recursive: true })
+fs.writeFileSync("content/db.json", JSON.stringify({ users: [], posts: [] }))
 
 import { GetFeedAlgorithm } from "./GetFeedAlgorithm.js"
 import { AuthAPI } from "./AuthAPI.js"

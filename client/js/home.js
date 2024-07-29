@@ -48,9 +48,11 @@ fetch(`${API}/api/feed`)
 			if (post.retweetOf !== undefined) {
 				let retweetUser = User.getUserById(post.userId)
 				if (retweetUser === undefined) {
-					retweetUser = await (
-						await fetch(`${API}/api/users/${post.userId}`)
-					).json()
+					retweetUser = (
+						await (
+							await fetch(`${API}/api/users/${post.userId}`)
+						).json()
+					).user
 					User.setUser(post.userId, retweetUser)
 				}
 				postObj.retweetedBy = retweetUser
@@ -61,9 +63,11 @@ fetch(`${API}/api/feed`)
 			FEED.appendChild(postHtml)
 
 			if (user === undefined) {
-				user = await (
-					await fetch(`${API}/api/users/${post.userId}`)
-				).json()
+				user = (
+					await (
+						await fetch(`${API}/api/users/${post.userId}`)
+					).json()
+				).user
 				User.setUser(post.userId, user)
 			}
 			Post.updateUser(postHtml, user)
