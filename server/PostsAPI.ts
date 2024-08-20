@@ -16,6 +16,15 @@ app.use(VerifyMiddleware)
 app.use(cookieParser())
 app.use(bodyParser.json())
 
+function NotAGuest(res: any, userId: any) {
+	if (userId === "guest") {
+		res.status(401).json({
+			error: "You must be logged in to do this",
+		})
+		return true
+	}
+}
+
 function verifyPID(res: any, pid: any) {
 	if (!pid || typeof pid !== "string") {
 		return res.status(400).json({
@@ -89,6 +98,7 @@ app.post("/:postId/like", (req, res) => {
 	let intent = req.query.intent === "true"
 	let userId = req.cookies.userId
 
+	if (NotAGuest(res, userId)) return
 	verifyPID(res, postId)
 
 	let db = getDb()
@@ -141,8 +151,7 @@ app.post("/:postId/retweet", (req, res) => {
 	let intent = req.query.intent === "true"
 	let userId = req.cookies.userId
 
-	console
-
+	if (NotAGuest(res, userId)) return
 	verifyPID(res, postId)
 
 	let db = getDb()
@@ -251,6 +260,7 @@ app.post("/create", (req, res) => {
 	let { content } = req.body
 	let userId = req.cookies.userId
 
+	if (NotAGuest(res, userId)) return
 	verifyContent(res, content)
 
 	let user = User.getUserFromId(userId) as any

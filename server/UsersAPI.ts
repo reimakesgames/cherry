@@ -7,6 +7,15 @@ import { VerifyMiddleware } from "./VerifyMiddleware.js"
 import { Post } from "./Post.js"
 import { getDb, setDb } from "./DB.js"
 
+function NotAGuest(res: any, userId: any) {
+	if (userId === "guest") {
+		res.status(401).json({
+			error: "You must be logged in to do this",
+		})
+		return true
+	}
+}
+
 const app = express()
 
 app.use(VerifyMiddleware)
@@ -88,6 +97,8 @@ app.post("/:id/follow", (req, res) => {
 	const userId = req.cookies.userId as string
 	const toFollowId = req.params.id as string
 
+	if (NotAGuest(res, userId)) return
+
 	const user = User.getUserFromId(userId)
 	const toFollow = User.getUserFromId(toFollowId)
 
@@ -113,6 +124,8 @@ app.post("/:id/follow", (req, res) => {
 app.post("/:id/unfollow", (req, res) => {
 	const userId = req.cookies.userId as string
 	const toFollowId = req.params.id as string
+
+	if (NotAGuest(res, userId)) return
 
 	const user = User.getUserFromId(userId)
 	const toFollow = User.getUserFromId(toFollowId)

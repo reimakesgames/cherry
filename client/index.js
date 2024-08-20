@@ -1,4 +1,5 @@
 const LOGIN_BUTTON = document.getElementById("login-button")
+const SKIP_LOGIN = document.getElementById("skip-login")
 
 const API = window.location.origin
 
@@ -11,4 +12,14 @@ LOGIN_BUTTON.addEventListener("click", () => {
 	} else {
 		window.location.href = PROD_OAUTH2
 	}
+})
+
+SKIP_LOGIN.addEventListener("click", () => {
+	fetch(`${API}/api/auth/skip`)
+		.then(() => {
+			window.location.href = "/home/"
+		})
+		.catch((error) => {
+			console.error(error)
+		})
 })

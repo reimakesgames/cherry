@@ -84,4 +84,22 @@ app.get("/redirect", async (req, res) => {
 	res.redirect(`${URL}/home?userId=${apiUser.id}`)
 })
 
+app.get("/skip", (req, res) => {
+	// generate random token
+
+	let accessToken = "guest"
+
+	res.cookie("accessToken", accessToken, {
+		httpOnly: true,
+		secure: true,
+	})
+
+	res.cookie("userId", "guest", {
+		httpOnly: true,
+		secure: true,
+	})
+
+	res.redirect(`${URL}/home?userId=guest`)
+})
+
 export { app as AuthAPI }
