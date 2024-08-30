@@ -25,9 +25,7 @@ class User {
 	static setUser(userId: string, user: User) {
 		let db = getDb()
 		db.users[userId] = user
-		console.table(user)
 		setDb(db)
-		console.table(getDb().users)
 	}
 
 	static getUserFromId(userId: string) {

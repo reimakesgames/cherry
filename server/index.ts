@@ -1,10 +1,20 @@
 import express from "express"
-import fs from "fs"
 
 require("dotenv").config()
 ;(BigInt.prototype as any).toJSON = function () {
 	return this.toString()
 }
+
+import { getDb, setDb } from "./DB.js"
+let db = getDb()
+// populate the users.posts array with the postIds
+for (let userId in db.users) {
+	let user = db.users[userId] as any
+	user.posts = db.posts
+		.filter((p) => p.userId === userId)
+		.map((p) => p.postId)
+}
+setDb(db)
 
 import { GetFeedAlgorithm } from "./GetFeedAlgorithm.js"
 import { AuthAPI } from "./AuthAPI.js"

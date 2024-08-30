@@ -176,7 +176,6 @@ app.post("/:postId/retweet", (req, res) => {
 				retweeted: true,
 			})
 		} else {
-			console.log(`User ${userId} retweeted ${postId}`)
 			retweetedPost.retweets.push(userId)
 
 			let id = BigInt(Date.now())
@@ -203,7 +202,6 @@ app.post("/:postId/retweet", (req, res) => {
 				retweeted: false,
 			})
 		} else {
-			console.log(`User ${userId} unretweeted ${postId}`)
 			retweetedPost.retweets = retweetedPost.retweets.filter(
 				(id: any) => id !== userId
 			)
@@ -213,10 +211,6 @@ app.post("/:postId/retweet", (req, res) => {
 			)
 
 			if (post) {
-				console.log(`Deleted retweet ${post.postId}`)
-				console.log(
-					db.posts.findIndex((p: any) => p.postId === post.postId)
-				)
 				db.posts = db.posts.filter((p: any) => p.postId !== post.postId)
 				user.posts = user.posts.filter((id: any) => id !== post.postId)
 			}
