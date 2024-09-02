@@ -15,24 +15,23 @@ let urlParams = new URLSearchParams(window.location.search)
 let myUserId = urlParams.get("userId") || localStorage.getItem("userId")
 if (myUserId !== null) {
 	localStorage.setItem("userId", myUserId)
-	window.history.replaceState({}, document.title, "/home/")
+
+	fetch(`${API}/api/users/${myUserId}`)
+		.then((response) => response.json())
+		.then((data) => {
+			myUser = data.user
+			User.setUser(myUserId, myUser)
+
+			NAVBAR_PROFILE.src = `${API}/avatar/${myUser.avatarId}`
+			POSTBOX_PROFILE.src = `${API}/avatar/${myUser.avatarId}`
+			POSTBOX_USER.textContent = myUser.displayName
+			POSTBOX_HANDLE.textContent = "@" + myUser.displayName
+		})
+		.catch((error) => {
+			console.error(error)
+		})
 }
 let myUser
-
-fetch(`${API}/api/users/${myUserId}`)
-	.then((response) => response.json())
-	.then((data) => {
-		myUser = data.user
-		User.setUser(myUserId, myUser)
-
-		NAVBAR_PROFILE.src = `${API}/avatar/${myUser.avatarId}`
-		POSTBOX_PROFILE.src = `${API}/avatar/${myUser.avatarId}`
-		POSTBOX_USER.textContent = myUser.displayName
-		POSTBOX_HANDLE.textContent = "@" + myUser.displayName
-	})
-	.catch((error) => {
-		console.error(error)
-	})
 
 fetch(`${API}/api/feed`)
 	.then((response) => response.json())

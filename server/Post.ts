@@ -1,4 +1,4 @@
-import { getDb } from "./DB"
+import { getDb } from "./DB.js"
 
 type PostWithNoRelations = {
 	postId: string

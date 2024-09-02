@@ -67,13 +67,13 @@ class Post {
 	content = ""
 	images = []
 
+	comments = []
+	likes = []
+	retweets = []
 	viewsCount = 0
 
 	liked = false
 	retweeted = false
-	comments = []
-	likes = []
-	retweets = []
 
 	/**
 	 * Updates the user data in a post HTML

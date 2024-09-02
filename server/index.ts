@@ -1,5 +1,4 @@
 import express from "express"
-
 require("dotenv").config()
 ;(BigInt.prototype as any).toJSON = function () {
 	return this.toString()

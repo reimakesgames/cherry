@@ -1,6 +1,34 @@
 import express from "express"
 import { RESTPostOAuth2AccessTokenResult, APIUser } from "discord-api-types/v10"
 import { User } from "./User.js"
+import path from "path"
+import download from "image-downloader"
+
+const CONTENT = path.join(process.cwd(), "content")
+
+async function newUserFromAPIUser(apiUser: APIUser) {
+	let user = new User()
+
+	let avatarUrl = `https://cdn.discordapp.com/avatars/${apiUser.id}/${apiUser.avatar}.png`
+	let avatarFilename = `${apiUser.id}.png`
+	await downloadAvatar(
+		avatarUrl,
+		path.join(CONTENT, "avatar", avatarFilename)
+	)
+
+	user.displayName = apiUser.username
+	user.userId = apiUser.id
+	user.avatarId = avatarFilename
+
+	User.setUser(apiUser.id, user)
+}
+
+async function downloadAvatar(url: string, dest: string) {
+	await download.image({
+		url,
+		dest,
+	})
+}
 
 const app = express()
 
@@ -54,7 +82,7 @@ app.get("/redirect", async (req, res) => {
 
 	if (typeof code !== "string") {
 		return res.status(400).json({
-			error: "Invalid code",
+			error: "Invalid code, must be a string",
 		})
 	}
 
@@ -70,7 +98,7 @@ app.get("/redirect", async (req, res) => {
 
 	console.log(`User ${apiUser.username}#${apiUser.discriminator} logged in`)
 
-	User.newUserFromAPIUser(apiUser)
+	await newUserFromAPIUser(apiUser)
 
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true,
